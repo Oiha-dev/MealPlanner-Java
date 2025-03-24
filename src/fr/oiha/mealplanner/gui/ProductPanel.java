@@ -1,5 +1,8 @@
 package fr.oiha.mealplanner.gui;
 
+import fr.oiha.mealplanner.model.Product;
+import fr.oiha.mealplanner.service.MealPlannerService;
+
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
@@ -21,6 +24,7 @@ public class ProductPanel extends JPanel {
         initComponents();
         setupEventHandlers();
         setName("ProductPanel");
+        loadProducts();
     }
 
     private void initComponents() {
@@ -63,8 +67,10 @@ public class ProductPanel extends JPanel {
         addProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Implement product addition
-                JOptionPane.showMessageDialog(ProductPanel.this, "Add product functionality not implemented yet");
+
+                // Create and show the Add Product dialog
+                AddProductFrame dialog = new AddProductFrame(ProductPanel.this);
+                dialog.setVisible(true);
             }
         });
 
@@ -95,5 +101,16 @@ public class ProductPanel extends JPanel {
 
     public JTable getProductTable() {
         return productTable;
+    }
+
+    public void loadProducts() {
+        ((DefaultTableModel) productTable.getModel()).setRowCount(0);
+        MealPlannerService.getInstance().getProducts().forEach(p -> {
+            ((DefaultTableModel) productTable.getModel()).addRow(new Object[]{
+                    p.getName(),
+                    p.getPricePerPack(),
+                    p.getUnit()
+            });
+        });
     }
 }

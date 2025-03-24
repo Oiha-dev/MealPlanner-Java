@@ -32,7 +32,7 @@ public class MainFrame {
         // Initialize components
         toolBar = new JToolBar();
         mealButton = new JButton("Meal");
-        ingredientsButton = new JButton("Ingredients");
+        ingredientsButton = new JButton("Products");
         mealPlannerButton = new JButton("Meal Planner");
         contentPanel = new MealPanel();
 

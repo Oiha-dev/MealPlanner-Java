@@ -1,18 +1,42 @@
 package fr.oiha.mealplanner.model;
 
-public class Ingredient extends Product {
-    private double weightPerMeal;
+public class Ingredient {
+    private Product product;
+    private int productId; // For JSON serialization
+    private double quantity;
 
-    public Ingredient(int id, String name, double pricePerPack, double weightPerPack, String unit, double weightPerMeal) {
-        super(id, name, pricePerPack, weightPerPack, unit);
-        this.weightPerMeal = weightPerMeal;
+    // Constructor for use in the application
+    public Ingredient(Product product, double quantity) {
+        this.product = product;
+        this.productId = product.getId();
+        this.quantity = quantity;
     }
 
-    public double getWeightPerMeal() {
-        return weightPerMeal;
+    // Constructor for deserialization from JSON
+    public Ingredient(int productId, double quantity) {
+        this.productId = productId;
+        this.quantity = quantity;
+        // Product will be set later when loaded from the service
     }
 
-    public void setWeightPerMeal(double weightPerMeal) {
-        this.weightPerMeal = weightPerMeal;
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+        this.productId = product.getId();
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
     }
 }

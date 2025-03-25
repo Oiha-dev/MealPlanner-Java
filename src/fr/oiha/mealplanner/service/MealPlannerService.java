@@ -13,8 +13,9 @@ public class MealPlannerService {
     private static MealPlannerService instance;
     private Set<Product> products;
     private Set<Meal> meals;
-    private int productCounter = 1;
-    private int mealCounter = 1;
+    private int productCounter = 0;
+    private int mealCounter = 0;
+    private DataStorageService storageService;
 
     private MealPlannerService() {
         DataStorageService storageService = new DataStorageService();
@@ -29,7 +30,17 @@ public class MealPlannerService {
         } else {
             products = new HashSet<>();
         }
-        meals = new HashSet<>();
+        List<Meal> loadedMeals = storageService.loadMeals();
+        if (loadedMeals != null) {
+            meals = new HashSet<>(loadedMeals);
+            for (Meal m : loadedMeals) {
+                if (m.getId() >= mealCounter) {
+                    mealCounter = m.getId() + 1;
+                }
+            }
+        } else {
+            meals = new HashSet<>();
+        }
     }
 
     public static MealPlannerService getInstance() {
@@ -44,17 +55,45 @@ public class MealPlannerService {
         products.add(product);
     }
 
-    public void removeProduct(String name) {
-        products.removeIf(product -> product.getName().equalsIgnoreCase(name));
+    public void modifyProduct(int id, String name, double pricePerPack, double weightPerPack, String unit) {
+        for (Product product : products) {
+            if (product.getId() == id) {
+                product.setName(name);
+                product.setPricePerPack(pricePerPack);
+                product.setWeightPerPack(weightPerPack);
+                product.setUnit(unit);
+                DataStorageService.saveProducts(MealPlannerService.getInstance().getProducts());
+                return;
+            }
+        }
+    }
+
+    public void removeProduct(int id) {
+        products.removeIf(product -> product.getId() == id);
+        DataStorageService.saveProducts(MealPlannerService.getInstance().getProducts());
     }
 
     public void addMeal(String name, List<Ingredient> ingredients, String recipe) {
         Meal meal = new Meal(mealCounter++, name, recipe, ingredients);
         meals.add(meal);
+        DataStorageService.saveMeals(getMeals());
     }
 
-    public void removeMeal(String name) {
-        meals.removeIf(meal -> meal.getName().equalsIgnoreCase(name));
+    public void removeMeal(int id) {
+        meals.removeIf(meal -> meal.getId() == id);
+        DataStorageService.saveMeals(getMeals());
+    }
+
+    public void modifyMeal(int id, String name, List<Ingredient> ingredients, String recipe) {
+        for (Meal meal : meals) {
+            if (meal.getId() == id) {
+                meal.setName(name);
+                meal.setRecipe(recipe);
+                meal.setIngredients(ingredients);
+                DataStorageService.saveMeals(getMeals());
+                return;
+            }
+        }
     }
 
     public MealPlan generateMealPlan(double maxBudget) {

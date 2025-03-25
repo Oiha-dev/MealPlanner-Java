@@ -67,8 +67,6 @@ public class ProductPanel extends JPanel {
         addProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                // Create and show the Add Product dialog
                 AddProductFrame dialog = new AddProductFrame(ProductPanel.this);
                 dialog.setVisible(true);
             }
@@ -81,8 +79,8 @@ public class ProductPanel extends JPanel {
                     JOptionPane.showMessageDialog(ProductPanel.this, "Please select a product to modify");
                     return;
                 }
-                // TODO: Implement product modification
-                JOptionPane.showMessageDialog(ProductPanel.this, "Modify product functionality not implemented yet");
+                ModifyProductFrame dialog = new ModifyProductFrame(ProductPanel.this, productTable.getSelectedRow());
+                dialog.setVisible(true);
             }
         });
 
@@ -93,8 +91,8 @@ public class ProductPanel extends JPanel {
                     JOptionPane.showMessageDialog(ProductPanel.this, "Please select a product to delete");
                     return;
                 }
-                // TODO: Implement product deletion
-                JOptionPane.showMessageDialog(ProductPanel.this, "Delete product functionality not implemented yet");
+                MealPlannerService.getInstance().removeProduct(productTable.getSelectedRow());
+                loadProducts();
             }
         });
     }

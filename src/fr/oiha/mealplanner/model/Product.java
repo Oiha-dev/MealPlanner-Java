@@ -1,12 +1,11 @@
 package fr.oiha.mealplanner.model;
 
 public class Product {
-
     private final int id;
     private String name;
-    double pricePerPack;
-    double weightPerPack;
-    String unit;
+    private double pricePerPack;
+    private double weightPerPack;
+    private String unit;
 
     public Product(int id, String name, double pricePerPack, double weightPerPack, String unit) {
         this.id = id;
@@ -50,5 +49,11 @@ public class Product {
 
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+    
+    // Add toString method to display product name in UI components
+    @Override
+    public String toString() {
+        return name;
     }
 }

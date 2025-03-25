@@ -1,6 +1,6 @@
 package fr.oiha.mealplanner.gui;
 
-import fr.oiha.mealplanner.service.DataStorageService;
+import fr.oiha.mealplanner.model.Product;
 import fr.oiha.mealplanner.service.MealPlannerService;
 
 import javax.swing.*;
@@ -8,25 +8,28 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.NumberFormat;
 
-public class AddProductFrame extends JFrame {
+public class ModifyProductFrame extends JFrame {
     private JTextField nameField;
     private JComboBox<String> unitComboBox;
     private JFormattedTextField weightPerPackField;
     private JFormattedTextField pricePerPackField;
     private ProductPanel parentFrame;
+    private int id;
 
-    private JButton addButton;
+    private JButton saveButton;
     private JButton cancelButton;
 
-    public AddProductFrame(ProductPanel parent) {
-        super("Add New Product");
+    public ModifyProductFrame(ProductPanel parent, int id) {
+        super("Modify Product");
         this.parentFrame = parent;
+        this.id = id;
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(400, 250);
         setLocationRelativeTo(parent);
         setResizable(false);
 
         initComponents();
+        loadProductData();
         setupLayout();
         setupEventHandlers();
     }
@@ -48,8 +51,28 @@ public class AddProductFrame extends JFrame {
         pricePerPackField.setValue(0.0);
         pricePerPackField.setColumns(10);
 
-        addButton = new JButton("Add");
+        saveButton = new JButton("Save");
         cancelButton = new JButton("Cancel");
+    }
+
+    private void loadProductData() {
+        Product product = MealPlannerService.getInstance().getProducts().stream()
+                .filter(p -> p.getId() == id)
+                .findFirst()
+                .orElse(null);
+
+        if (product != null) {
+            nameField.setText(product.getName());
+            unitComboBox.setSelectedItem(product.getUnit());
+            pricePerPackField.setValue(product.getPricePerPack());
+            weightPerPackField.setValue(product.getWeightPerPack());
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Product not found",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            dispose();
+        }
     }
 
     private void setupLayout() {
@@ -103,7 +126,7 @@ public class AddProductFrame extends JFrame {
 
         // Button panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.add(addButton);
+        buttonPanel.add(saveButton);
         buttonPanel.add(cancelButton);
         contentPanel.add(buttonPanel, BorderLayout.SOUTH);
 
@@ -111,12 +134,11 @@ public class AddProductFrame extends JFrame {
     }
 
     private void setupEventHandlers() {
-        addButton.addActionListener(new ActionListener() {
+        saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (validateInput()) {
-                    MealPlannerService.getInstance().addProduct(getProductName(), getPricePerPack(), getWeightPerPack(), getUnit());
-                    DataStorageService.saveProducts(MealPlannerService.getInstance().getProducts());
+                    MealPlannerService.getInstance().modifyProduct(id, getProductName(), getPricePerPack(), getWeightPerPack(), getUnit());
                     parentFrame.loadProducts();
                     dispose();
                 }
@@ -129,7 +151,7 @@ public class AddProductFrame extends JFrame {
                 dispose();
             }
         });
-        getRootPane().setDefaultButton(addButton);
+        getRootPane().setDefaultButton(saveButton);
     }
 
     private boolean validateInput() {
@@ -182,7 +204,6 @@ public class AddProductFrame extends JFrame {
 
         return true;
     }
-
 
     public String getProductName() {
         return nameField.getText().trim();

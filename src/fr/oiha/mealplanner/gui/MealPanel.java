@@ -1,5 +1,8 @@
 package fr.oiha.mealplanner.gui;
 
+import fr.oiha.mealplanner.service.MealPlannerService;
+import fr.oiha.mealplanner.model.Ingredient;
+
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
@@ -21,6 +24,7 @@ public class MealPanel extends JPanel {
         initComponents();
         setupEventHandlers();
         setName("MealPanel");
+        loadMeals();
     }
 
     private void initComponents() {
@@ -63,8 +67,8 @@ public class MealPanel extends JPanel {
         addMealButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Implement meal addition
-                JOptionPane.showMessageDialog(MealPanel.this, "Add meal functionality not implemented yet");
+                AddMealFrame dialog = new AddMealFrame(MealPanel.this);
+                dialog.setVisible(true);
             }
         });
 
@@ -75,8 +79,8 @@ public class MealPanel extends JPanel {
                     JOptionPane.showMessageDialog(MealPanel.this, "Please select a meal to modify");
                     return;
                 }
-                // TODO: Implement meal modification
-                JOptionPane.showMessageDialog(MealPanel.this, "Modify meal functionality not implemented yet");
+                ModifyMealFrame dialog = new ModifyMealFrame(MealPanel.this, mealTable.getSelectedRow());
+                dialog.setVisible(true);
             }
         });
 
@@ -87,9 +91,28 @@ public class MealPanel extends JPanel {
                     JOptionPane.showMessageDialog(MealPanel.this, "Please select a meal to delete");
                     return;
                 }
-                // TODO: Implement meal deletion
-                JOptionPane.showMessageDialog(MealPanel.this, "Delete meal functionality not implemented yet");
+                MealPlannerService.getInstance().removeMeal(mealTable.getSelectedRow());
+                loadMeals();
             }
+        });
+    }
+
+    public void loadMeals() {
+        ((DefaultTableModel) mealTable.getModel()).setRowCount(0);
+        MealPlannerService.getInstance().getMeals().forEach(m -> {
+            // Calculate total price
+            double totalPrice = 0.0;
+            for (Ingredient ingredient : m.getIngredients()) {
+                // Calculate cost based on the proportion of the pack used
+                double proportion = ingredient.getQuantity() / ingredient.getProduct().getWeightPerPack();
+                totalPrice += proportion * ingredient.getProduct().getPricePerPack();
+            }
+            
+            ((DefaultTableModel) mealTable.getModel()).addRow(new Object[]{
+                    m.getName(),
+                    String.format("%.2f €", totalPrice),
+                    m.getIngredients().size()
+            });
         });
     }
 

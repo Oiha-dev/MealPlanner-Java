@@ -55,9 +55,16 @@ public class ProductPanel extends JPanel {
                 new Object[][] {
                 },
                 new String[] {
-                        "Product Name", "Price", "Unit"
+                        "ID", "Product Name", "Price", "Unit"
                 }
         ));
+        
+        // Cacher la colonne ID
+        TableColumnModel columnModel = productTable.getColumnModel();
+        columnModel.getColumn(0).setMinWidth(0);
+        columnModel.getColumn(0).setMaxWidth(0);
+        columnModel.getColumn(0).setPreferredWidth(0);
+        columnModel.getColumn(0).setResizable(false);
 
         scrollPane.setViewportView(productTable);
         add(scrollPane, BorderLayout.CENTER);
@@ -79,7 +86,10 @@ public class ProductPanel extends JPanel {
                     JOptionPane.showMessageDialog(ProductPanel.this, "Please select a product to modify");
                     return;
                 }
-                ModifyProductFrame dialog = new ModifyProductFrame(ProductPanel.this, productTable.getSelectedRow());
+                
+                // Récupérer l'ID réel du produit depuis la colonne cachée
+                int productId = (Integer) productTable.getValueAt(productTable.getSelectedRow(), 0);
+                ModifyProductFrame dialog = new ModifyProductFrame(ProductPanel.this, productId);
                 dialog.setVisible(true);
             }
         });
@@ -91,7 +101,10 @@ public class ProductPanel extends JPanel {
                     JOptionPane.showMessageDialog(ProductPanel.this, "Please select a product to delete");
                     return;
                 }
-                MealPlannerService.getInstance().removeProduct(productTable.getSelectedRow());
+                
+                // Récupérer l'ID réel du produit depuis la colonne cachée
+                int productId = (Integer) productTable.getValueAt(productTable.getSelectedRow(), 0);
+                MealPlannerService.getInstance().removeProduct(productId);
                 loadProducts();
             }
         });
@@ -105,6 +118,7 @@ public class ProductPanel extends JPanel {
         ((DefaultTableModel) productTable.getModel()).setRowCount(0);
         MealPlannerService.getInstance().getProducts().forEach(p -> {
             ((DefaultTableModel) productTable.getModel()).addRow(new Object[]{
+                    p.getId(),
                     p.getName(),
                     p.getPricePerPack(),
                     p.getUnit()

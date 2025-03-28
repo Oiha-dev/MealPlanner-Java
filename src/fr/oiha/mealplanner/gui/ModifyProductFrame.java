@@ -14,15 +14,15 @@ public class ModifyProductFrame extends JFrame {
     private JFormattedTextField weightPerPackField;
     private JFormattedTextField pricePerPackField;
     private ProductPanel parentFrame;
-    private int id;
+    private int productId; // Renommé pour plus de clarté
 
     private JButton saveButton;
     private JButton cancelButton;
 
-    public ModifyProductFrame(ProductPanel parent, int id) {
+    public ModifyProductFrame(ProductPanel parent, int productId) {
         super("Modify Product");
         this.parentFrame = parent;
-        this.id = id;
+        this.productId = productId; // Utiliser l'ID réel du produit
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(400, 250);
         setLocationRelativeTo(parent);
@@ -57,7 +57,7 @@ public class ModifyProductFrame extends JFrame {
 
     private void loadProductData() {
         Product product = MealPlannerService.getInstance().getProducts().stream()
-                .filter(p -> p.getId() == id)
+                .filter(p -> p.getId() == productId)
                 .findFirst()
                 .orElse(null);
 
@@ -138,7 +138,7 @@ public class ModifyProductFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (validateInput()) {
-                    MealPlannerService.getInstance().modifyProduct(id, getProductName(), getPricePerPack(), getWeightPerPack(), getUnit());
+                    MealPlannerService.getInstance().modifyProduct(productId, getProductName(), getPricePerPack(), getWeightPerPack(), getUnit());
                     parentFrame.loadProducts();
                     dispose();
                 }

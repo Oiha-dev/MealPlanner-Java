@@ -1,5 +1,6 @@
 package fr.oiha.mealplanner.gui;
 
+import fr.oiha.mealplanner.exception.MealNotFoundException;
 import fr.oiha.mealplanner.model.Ingredient;
 import fr.oiha.mealplanner.model.Meal;
 import fr.oiha.mealplanner.model.Product;
@@ -326,11 +327,18 @@ public class ModifyMealFrame extends JFrame {
             ingredients.add(new Ingredient(product, quantity));
         }
 
-        MealPlannerService.getInstance().modifyMeal(id, name, ingredients, recipe);
-        DataStorageService.saveMeals(MealPlannerService.getInstance().getMeals());
-        JOptionPane.showMessageDialog(this,
-                "Meal modified successfully!",
-                "Success",
-                JOptionPane.INFORMATION_MESSAGE);
+        try {
+            MealPlannerService.getInstance().modifyMeal(id, name, ingredients, recipe);
+            DataStorageService.saveMeals(MealPlannerService.getInstance().getMeals());
+            JOptionPane.showMessageDialog(this,
+                    "Meal modified successfully!",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } catch (MealNotFoundException ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Meal not found: " + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

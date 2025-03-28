@@ -1,5 +1,6 @@
 package fr.oiha.mealplanner.gui;
 
+import fr.oiha.mealplanner.exception.ProductNotFoundException;
 import fr.oiha.mealplanner.model.Product;
 import fr.oiha.mealplanner.service.MealPlannerService;
 
@@ -138,9 +139,16 @@ public class ModifyProductFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (validateInput()) {
-                    MealPlannerService.getInstance().modifyProduct(productId, getProductName(), getPricePerPack(), getWeightPerPack(), getUnit());
-                    parentFrame.loadProducts();
-                    dispose();
+                    try {
+                        MealPlannerService.getInstance().modifyProduct(productId, getProductName(), getPricePerPack(), getWeightPerPack(), getUnit());
+                        parentFrame.loadProducts();
+                        dispose();
+                    } catch (ProductNotFoundException ex) {
+                        JOptionPane.showMessageDialog(ModifyProductFrame.this,
+                                "Product not found: " + ex.getMessage(),
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         });

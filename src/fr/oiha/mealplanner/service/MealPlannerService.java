@@ -1,5 +1,7 @@
 package fr.oiha.mealplanner.service;
 
+import fr.oiha.mealplanner.exception.MealNotFoundException;
+import fr.oiha.mealplanner.exception.ProductNotFoundException;
 import fr.oiha.mealplanner.model.Ingredient;
 import fr.oiha.mealplanner.model.Meal;
 import fr.oiha.mealplanner.model.MealPlan;
@@ -56,7 +58,7 @@ public class MealPlannerService {
         products.add(product);
     }
 
-    public void modifyProduct(int id, String name, double pricePerPack, double weightPerPack, String unit) {
+    public void modifyProduct(int id, String name, double pricePerPack, double weightPerPack, String unit) throws ProductNotFoundException {
         for (Product product : products) {
             if (product.getId() == id) {
                 product.setName(name);
@@ -67,6 +69,7 @@ public class MealPlannerService {
                 return;
             }
         }
+        throw new ProductNotFoundException(id);
     }
 
     public void removeProduct(int id) {
@@ -85,7 +88,7 @@ public class MealPlannerService {
         DataStorageService.saveMeals(getMeals());
     }
 
-    public void modifyMeal(int id, String name, List<Ingredient> ingredients, String recipe) {
+    public void modifyMeal(int id, String name, List<Ingredient> ingredients, String recipe) throws MealNotFoundException {
         for (Meal meal : meals) {
             if (meal.getId() == id) {
                 meal.setName(name);
@@ -95,6 +98,7 @@ public class MealPlannerService {
                 return;
             }
         }
+        throw new MealNotFoundException(id);
     }
 
     public MealPlan generateMealPlan(double maxBudget, int mealCount) {

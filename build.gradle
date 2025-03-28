@@ -19,5 +19,5 @@ dependencies {
 }
 
 application {
-    mainClass = 'main.java.fr.oiha.mealplanner.Main'
+    mainClass = 'fr.oiha.mealplanner.Main'
 }

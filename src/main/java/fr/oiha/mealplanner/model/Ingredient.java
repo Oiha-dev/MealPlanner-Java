@@ -1,4 +1,4 @@
-package main.java.fr.oiha.mealplanner.model;
+package fr.oiha.mealplanner.model;
 
 public class Ingredient {
     private Product product;

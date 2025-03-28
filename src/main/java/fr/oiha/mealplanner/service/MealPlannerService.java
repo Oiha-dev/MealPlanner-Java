@@ -1,9 +1,11 @@
-package main.java.fr.oiha.mealplanner.service;
+package fr.oiha.mealplanner.service;
 
-import main.java.fr.oiha.mealplanner.model.Ingredient;
-import main.java.fr.oiha.mealplanner.model.Meal;
-import main.java.fr.oiha.mealplanner.model.MealPlan;
-import main.java.fr.oiha.mealplanner.model.Product;
+import fr.oiha.mealplanner.exception.MealNotFoundException;
+import fr.oiha.mealplanner.exception.ProductNotFoundException;
+import fr.oiha.mealplanner.model.Ingredient;
+import fr.oiha.mealplanner.model.Meal;
+import fr.oiha.mealplanner.model.MealPlan;
+import fr.oiha.mealplanner.model.Product;
 
 import java.util.*;
 

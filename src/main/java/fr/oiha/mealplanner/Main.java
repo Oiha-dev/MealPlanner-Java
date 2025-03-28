@@ -1,6 +1,6 @@
-package main.java.fr.oiha.mealplanner;
+package fr.oiha.mealplanner;
 
-import main.java.fr.oiha.mealplanner.gui.MainFrame;
+import fr.oiha.mealplanner.gui.MainFrame;
 
 import javax.swing.*;
 

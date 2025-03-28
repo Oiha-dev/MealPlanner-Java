@@ -1,7 +1,8 @@
-package main.java.fr.oiha.mealplanner.gui;
+package fr.oiha.mealplanner.gui;
 
-import main.java.fr.oiha.mealplanner.service.MealPlannerService;
-import main.java.fr.oiha.mealplanner.model.Ingredient;
+import fr.oiha.mealplanner.service.MealPlannerService;
+import fr.oiha.mealplanner.model.Ingredient;
+import fr.oiha.mealplanner.model.Meal;
 
 import javax.swing.*;
 import javax.swing.table.*;

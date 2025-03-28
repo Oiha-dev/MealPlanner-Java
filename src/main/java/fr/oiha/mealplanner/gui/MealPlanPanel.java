@@ -1,4 +1,4 @@
-package main.java.fr.oiha.mealplanner.gui;
+package fr.oiha.mealplanner.gui;
 
 import fr.oiha.mealplanner.model.Meal;
 import fr.oiha.mealplanner.model.MealPlan;

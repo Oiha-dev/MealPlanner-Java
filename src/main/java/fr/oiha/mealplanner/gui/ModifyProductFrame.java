@@ -1,7 +1,8 @@
-package main.java.fr.oiha.mealplanner.gui;
+package fr.oiha.mealplanner.gui;
 
-import main.java.fr.oiha.mealplanner.model.Product;
-import main.java.fr.oiha.mealplanner.service.MealPlannerService;
+import fr.oiha.mealplanner.exception.ProductNotFoundException;
+import fr.oiha.mealplanner.model.Product;
+import fr.oiha.mealplanner.service.MealPlannerService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,15 +15,15 @@ public class ModifyProductFrame extends JFrame {
     private JFormattedTextField weightPerPackField;
     private JFormattedTextField pricePerPackField;
     private ProductPanel parentFrame;
-    private int id;
+    private int productId; // Renommé pour plus de clarté
 
     private JButton saveButton;
     private JButton cancelButton;
 
-    public ModifyProductFrame(ProductPanel parent, int id) {
+    public ModifyProductFrame(ProductPanel parent, int productId) {
         super("Modify Product");
         this.parentFrame = parent;
-        this.id = id;
+        this.productId = productId; // Utiliser l'ID réel du produit
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(400, 250);
         setLocationRelativeTo(parent);
@@ -57,7 +58,7 @@ public class ModifyProductFrame extends JFrame {
 
     private void loadProductData() {
         Product product = MealPlannerService.getInstance().getProducts().stream()
-                .filter(p -> p.getId() == id)
+                .filter(p -> p.getId() == productId)
                 .findFirst()
                 .orElse(null);
 
@@ -138,9 +139,16 @@ public class ModifyProductFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (validateInput()) {
-                    MealPlannerService.getInstance().modifyProduct(id, getProductName(), getPricePerPack(), getWeightPerPack(), getUnit());
-                    parentFrame.loadProducts();
-                    dispose();
+                    try {
+                        MealPlannerService.getInstance().modifyProduct(productId, getProductName(), getPricePerPack(), getWeightPerPack(), getUnit());
+                        parentFrame.loadProducts();
+                        dispose();
+                    } catch (ProductNotFoundException ex) {
+                        JOptionPane.showMessageDialog(ModifyProductFrame.this,
+                                "Product not found: " + ex.getMessage(),
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         });

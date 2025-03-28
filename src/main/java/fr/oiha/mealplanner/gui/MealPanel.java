@@ -8,6 +8,8 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Panel for displaying and managing meals
@@ -19,8 +21,11 @@ public class MealPanel extends JPanel {
     private JButton deleteButton;
     private JScrollPane scrollPane;
     private JTable mealTable;
+    // Mapping entre les indices de ligne et les IDs de repas
+    private Map<Integer, Integer> rowToMealId;
 
     public MealPanel() {
+        rowToMealId = new HashMap<>();
         initComponents();
         setupEventHandlers();
         setName("MealPanel");
@@ -75,11 +80,18 @@ public class MealPanel extends JPanel {
         modifyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (mealTable.getSelectedRow() == -1) {
+                int selectedRow = mealTable.getSelectedRow();
+                if (selectedRow == -1) {
                     JOptionPane.showMessageDialog(MealPanel.this, "Please select a meal to modify");
                     return;
                 }
-                ModifyMealFrame dialog = new ModifyMealFrame(MealPanel.this, mealTable.getSelectedRow());
+                // Récupérer l'ID du repas à partir de la ligne sélectionnée
+                Integer mealId = rowToMealId.get(selectedRow);
+                if (mealId == null) {
+                    JOptionPane.showMessageDialog(MealPanel.this, "Error: Could not find meal ID");
+                    return;
+                }
+                ModifyMealFrame dialog = new ModifyMealFrame(MealPanel.this, mealId);
                 dialog.setVisible(true);
             }
         });
@@ -87,11 +99,18 @@ public class MealPanel extends JPanel {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (mealTable.getSelectedRow() == -1) {
+                int selectedRow = mealTable.getSelectedRow();
+                if (selectedRow == -1) {
                     JOptionPane.showMessageDialog(MealPanel.this, "Please select a meal to delete");
                     return;
                 }
-                MealPlannerService.getInstance().removeMeal(mealTable.getSelectedRow());
+                // Récupérer l'ID du repas à partir de la ligne sélectionnée
+                Integer mealId = rowToMealId.get(selectedRow);
+                if (mealId == null) {
+                    JOptionPane.showMessageDialog(MealPanel.this, "Error: Could not find meal ID");
+                    return;
+                }
+                MealPlannerService.getInstance().removeMeal(mealId);
                 loadMeals();
             }
         });
@@ -99,21 +118,28 @@ public class MealPanel extends JPanel {
 
     public void loadMeals() {
         ((DefaultTableModel) mealTable.getModel()).setRowCount(0);
-        MealPlannerService.getInstance().getMeals().forEach(m -> {
+        rowToMealId.clear();
+        int rowIndex = 0;
+
+        for (Meal meal : MealPlannerService.getInstance().getMeals()) {
             // Calculate total price
             double totalPrice = 0.0;
-            for (Ingredient ingredient : m.getIngredients()) {
+            for (Ingredient ingredient : meal.getIngredients()) {
                 // Calculate cost based on the proportion of the pack used
                 double proportion = ingredient.getQuantity() / ingredient.getProduct().getWeightPerPack();
                 totalPrice += proportion * ingredient.getProduct().getPricePerPack();
             }
             
             ((DefaultTableModel) mealTable.getModel()).addRow(new Object[]{
-                    m.getName(),
+                    meal.getName(),
                     String.format("%.2f €", totalPrice),
-                    m.getIngredients().size()
+                    meal.getIngredients().size()
             });
-        });
+
+            // Enregistrer l'ID du repas pour cette ligne
+            rowToMealId.put(rowIndex, meal.getId());
+            rowIndex++;
+        }
     }
 
     public JTable getMealTable() {

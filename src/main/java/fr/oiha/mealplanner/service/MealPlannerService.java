@@ -5,9 +5,7 @@ import main.java.fr.oiha.mealplanner.model.Meal;
 import main.java.fr.oiha.mealplanner.model.MealPlan;
 import main.java.fr.oiha.mealplanner.model.Product;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class MealPlannerService {
     private static MealPlannerService instance;
@@ -15,10 +13,12 @@ public class MealPlannerService {
     private Set<Meal> meals;
     private int productCounter = 0;
     private int mealCounter = 0;
+    private int mealPlanCounter = 0;
     private DataStorageService storageService;
+    private Map<Product, Double> shoppingList;
 
     private MealPlannerService() {
-        DataStorageService storageService = new DataStorageService();
+        storageService = new DataStorageService();
         List<Product> loadedProducts = storageService.loadProducts();
         if (loadedProducts != null) {
             products = new HashSet<>(loadedProducts);
@@ -41,6 +41,7 @@ public class MealPlannerService {
         } else {
             meals = new HashSet<>();
         }
+        shoppingList = new HashMap<>();
     }
 
     public static MealPlannerService getInstance() {
@@ -55,7 +56,7 @@ public class MealPlannerService {
         products.add(product);
     }
 
-    public void modifyProduct(int id, String name, double pricePerPack, double weightPerPack, String unit) {
+    public void modifyProduct(int id, String name, double pricePerPack, double weightPerPack, String unit) throws ProductNotFoundException {
         for (Product product : products) {
             if (product.getId() == id) {
                 product.setName(name);
@@ -66,6 +67,7 @@ public class MealPlannerService {
                 return;
             }
         }
+        throw new ProductNotFoundException(id);
     }
 
     public void removeProduct(int id) {
@@ -84,7 +86,7 @@ public class MealPlannerService {
         DataStorageService.saveMeals(getMeals());
     }
 
-    public void modifyMeal(int id, String name, List<Ingredient> ingredients, String recipe) {
+    public void modifyMeal(int id, String name, List<Ingredient> ingredients, String recipe) throws MealNotFoundException {
         for (Meal meal : meals) {
             if (meal.getId() == id) {
                 meal.setName(name);
@@ -94,13 +96,76 @@ public class MealPlannerService {
                 return;
             }
         }
+        throw new MealNotFoundException(id);
     }
 
-    public MealPlan generateMealPlan(double maxBudget) {
-        return null;
+    public MealPlan generateMealPlan(double maxBudget, int mealCount) {
+        if (meals.isEmpty()) {
+            return null;
+        }
+
+        List<Meal> allMeals = new ArrayList<>(meals);
+        Collections.shuffle(allMeals); // Mélange aléatoire des repas
+
+        List<Meal> selectedMeals = new ArrayList<>();
+        double totalCost = 0.0;
+
+        // On prend des repas jusqu'à atteindre le nombre demandé ou le budget max
+        for (Meal meal : allMeals) {
+            if (selectedMeals.size() >= mealCount) {
+                break;
+            }
+
+            double mealCost = calculateMealCost(meal);
+
+            if (totalCost + mealCost <= maxBudget) {
+                selectedMeals.add(meal);
+                totalCost += mealCost;
+            }
+        }
+
+        return new MealPlan(mealPlanCounter++, "Plan de repas du " + new Date(), new Date(), selectedMeals);
     }
 
-    public void generateShoppingList(MealPlan plan) {
+    public Map<Product, Double> generateShoppingList(MealPlan plan) {
+        Map<Product, Double> shoppingList = new HashMap<>();
+
+        if (plan == null || plan.getMeals() == null || plan.getMeals().isEmpty()) {
+            return shoppingList;
+        }
+
+        for (Meal meal : plan.getMeals()) {
+            for (Ingredient ingredient : meal.getIngredients()) {
+                Product product = ingredient.getProduct();
+                double currentQuantity = shoppingList.getOrDefault(product, 0.0);
+                shoppingList.put(product, currentQuantity + ingredient.getQuantity());
+            }
+        }
+
+        this.shoppingList = shoppingList;
+        storageService.saveShoppingList(shoppingList);
+        return shoppingList;
+    }
+
+    public boolean exportMealPlanToMarkdown(MealPlan mealPlan, String filePath) {
+        return storageService.exportMealPlanToMarkdown(mealPlan, filePath);
+    }
+
+    public double calculateMealCost(Meal meal) {
+        double cost = 0.0;
+        for (Ingredient ingredient : meal.getIngredients()) {
+            Product product = ingredient.getProduct();
+            cost += (ingredient.getQuantity() / product.getWeightPerPack()) * product.getPricePerPack();
+        }
+        return cost;
+    }
+
+    public double calculateMealPlanCost(MealPlan plan) {
+        double totalCost = 0.0;
+        for (Meal meal : plan.getMeals()) {
+            totalCost += calculateMealCost(meal);
+        }
+        return totalCost;
     }
 
     public Set<Meal> getMeals() {

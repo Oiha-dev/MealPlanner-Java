@@ -1,4 +1,4 @@
-package fr.oiha.mealplanner.model;
+package main.java.fr.oiha.mealplanner.model;
 
 import java.util.Date;
 import java.util.List;

@@ -1,8 +1,8 @@
-package fr.oiha.mealplanner.service;
+package main.java.fr.oiha.mealplanner.service;
 
-import fr.oiha.mealplanner.model.Meal;
-import fr.oiha.mealplanner.model.MealPlan;
-import fr.oiha.mealplanner.model.Product;
+import main.java.fr.oiha.mealplanner.model.Meal;
+import main.java.fr.oiha.mealplanner.model.MealPlan;
+import main.java.fr.oiha.mealplanner.model.Product;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

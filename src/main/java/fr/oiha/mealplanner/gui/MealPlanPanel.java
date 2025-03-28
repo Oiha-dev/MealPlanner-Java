@@ -1,4 +1,4 @@
-package fr.oiha.mealplanner.gui;
+package main.java.fr.oiha.mealplanner.gui;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;

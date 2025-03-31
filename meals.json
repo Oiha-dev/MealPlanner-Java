@@ -1,0 +1,177 @@
+[
+  {
+    "id": 0,
+    "name": "Pasta Bolognese",
+    "recipe": "1. Brown ground beef in a pan\n2. Add chopped onions and tomatoes\n3. Simmer for 20 minutes\n4. Cook pasta according to package instructions\n5. Combine and serve with grated cheese on top",
+    "ingredients": [
+      {
+        "product": {
+          "id": 1,
+          "name": "Pasta",
+          "pricePerPack": 1.20,
+          "weightPerPack": 500.0,
+          "unit": "g"
+        },
+        "productId": 1,
+        "quantity": 250.0
+      },
+      {
+        "product": {
+          "id": 3,
+          "name": "Ground Beef",
+          "pricePerPack": 5.80,
+          "weightPerPack": 500.0,
+          "unit": "g"
+        },
+        "productId": 3,
+        "quantity": 300.0
+      },
+      {
+        "product": {
+          "id": 4,
+          "name": "Tomatoes",
+          "pricePerPack": 2.30,
+          "weightPerPack": 1.0,
+          "unit": "kg"
+        },
+        "productId": 4,
+        "quantity": 0.4
+      },
+      {
+        "product": {
+          "id": 5,
+          "name": "Onions",
+          "pricePerPack": 1.20,
+          "weightPerPack": 1.0,
+          "unit": "kg"
+        },
+        "productId": 5,
+        "quantity": 0.2
+      },
+      {
+        "product": {
+          "id": 9,
+          "name": "Cheese",
+          "pricePerPack": 3.50,
+          "weightPerPack": 200.0,
+          "unit": "g"
+        },
+        "productId": 9,
+        "quantity": 50.0
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "name": "Chicken Risotto",
+    "recipe": "1. Sauté diced chicken in olive oil until golden\n2. Add rice and stir for 2 minutes\n3. Gradually add hot stock, stirring until absorbed\n4. Cook for about 18 minutes until creamy\n5. Finish with cheese and serve hot",
+    "ingredients": [
+      {
+        "product": {
+          "id": 0,
+          "name": "Rice",
+          "pricePerPack": 2.50,
+          "weightPerPack": 1.0,
+          "unit": "kg"
+        },
+        "productId": 0,
+        "quantity": 0.3
+      },
+      {
+        "product": {
+          "id": 2,
+          "name": "Chicken Breast",
+          "pricePerPack": 6.50,
+          "weightPerPack": 1.0,
+          "unit": "kg"
+        },
+        "productId": 2,
+        "quantity": 0.4
+      },
+      {
+        "product": {
+          "id": 5,
+          "name": "Onions",
+          "pricePerPack": 1.20,
+          "weightPerPack": 1.0,
+          "unit": "kg"
+        },
+        "productId": 5,
+        "quantity": 0.1
+      },
+      {
+        "product": {
+          "id": 6,
+          "name": "Olive Oil",
+          "pricePerPack": 4.90,
+          "weightPerPack": 750.0,
+          "unit": "ml"
+        },
+        "productId": 6,
+        "quantity": 30.0
+      },
+      {
+        "product": {
+          "id": 9,
+          "name": "Cheese",
+          "pricePerPack": 3.50,
+          "weightPerPack": 200.0,
+          "unit": "g"
+        },
+        "productId": 9,
+        "quantity": 50.0
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Vegetable Omelette",
+    "recipe": "1. Beat eggs in a bowl with salt and pepper\n2. Chop vegetables finely\n3. Heat olive oil in a pan and sauté vegetables\n4. Pour in eggs and cook until set\n5. Fold omelette and serve hot",
+    "ingredients": [
+      {
+        "product": {
+          "id": 8,
+          "name": "Eggs",
+          "pricePerPack": 2.20,
+          "weightPerPack": 12.0,
+          "unit": "unit"
+        },
+        "productId": 8,
+        "quantity": 3.0
+      },
+      {
+        "product": {
+          "id": 4,
+          "name": "Tomatoes",
+          "pricePerPack": 2.30,
+          "weightPerPack": 1.0,
+          "unit": "kg"
+        },
+        "productId": 4,
+        "quantity": 0.2
+      },
+      {
+        "product": {
+          "id": 5,
+          "name": "Onions",
+          "pricePerPack": 1.20,
+          "weightPerPack": 1.0,
+          "unit": "kg"
+        },
+        "productId": 5,
+        "quantity": 0.1
+      },
+      {
+        "product": {
+          "id": 6,
+          "name": "Olive Oil",
+          "pricePerPack": 4.90,
+          "weightPerPack": 750.0,
+          "unit": "ml"
+        },
+        "productId": 6,
+        "quantity": 15.0
+      }
+    ]
+  }
+]

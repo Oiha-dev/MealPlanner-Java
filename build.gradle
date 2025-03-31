@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'main.java.fr.oiha'
-version = '1.0-SNAPSHOT'
+version = '1.0'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -16,8 +16,26 @@ repositories {
 
 dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
+
 }
 
 application {
     mainClass = 'fr.oiha.mealplanner.Main'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'fr.oiha.mealplanner.Main'
+    }
+}
+
+task fatJar(type: Jar) {
+    archiveBaseName = project.name + '-all'
+    manifest {
+        attributes 'Main-Class': 'fr.oiha.mealplanner.Main'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    with jar
 }

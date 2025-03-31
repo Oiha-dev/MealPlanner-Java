@@ -17,27 +17,6 @@ import java.util.HashMap;
 
 public class DataStorageService {
 
-    public void saveMealPlan(MealPlan plan) {
-        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String json = gson.toJson(plan);
-
-        try (FileWriter writer = new FileWriter("mealplan.json")) {
-            writer.write(json);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public MealPlan loadMealPlan() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("mealplan.json"))) {
-            Gson gson = new Gson();
-            return gson.fromJson(reader, MealPlan.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public static void saveProducts(Set<Product> products) {
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json = gson.toJson(products);
@@ -94,17 +73,6 @@ public class DataStorageService {
         } catch (IOException e) {
             e.printStackTrace();
             return new ArrayList<>();
-        }
-    }
-
-    public void saveShoppingList(Map<Product, Double> shoppingList) {
-        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String json = gson.toJson(shoppingList);
-
-        try (FileWriter writer = new FileWriter("shoppinglist.json")) {
-            writer.write(json);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -213,27 +181,6 @@ public class DataStorageService {
         } catch (IOException e) {
             e.printStackTrace();
             return false;
-        }
-    }
-
-    public Map<Product, Double> loadShoppingList() {
-        File file = new File("shoppinglist.json");
-        if (!file.exists()) {
-            return new HashMap<>();
-        }
-
-        try (Reader reader = new FileReader(file)) {
-            Gson gson = new GsonBuilder().create();
-            Map<Product, Double> shoppingList = gson.fromJson(reader, Map.class);
-
-            if (shoppingList == null) {
-                return new HashMap<>();
-            }
-
-            return shoppingList;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new HashMap<>();
         }
     }
 }

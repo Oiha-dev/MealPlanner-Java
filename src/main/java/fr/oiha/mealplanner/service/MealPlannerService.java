@@ -145,7 +145,6 @@ public class MealPlannerService {
         }
 
         this.shoppingList = shoppingList;
-        storageService.saveShoppingList(shoppingList);
         return shoppingList;
     }
 
@@ -160,14 +159,6 @@ public class MealPlannerService {
             cost += (ingredient.getQuantity() / product.getWeightPerPack()) * product.getPricePerPack();
         }
         return cost;
-    }
-
-    public double calculateMealPlanCost(MealPlan plan) {
-        double totalCost = 0.0;
-        for (Meal meal : plan.getMeals()) {
-            totalCost += calculateMealCost(meal);
-        }
-        return totalCost;
     }
 
     public Set<Meal> getMeals() {

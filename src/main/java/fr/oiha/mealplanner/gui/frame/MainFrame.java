@@ -1,19 +1,22 @@
-package fr.oiha.mealplanner.gui;
+package fr.oiha.mealplanner.gui.frame;
+
+import fr.oiha.mealplanner.gui.panel.MealPanel;
+import fr.oiha.mealplanner.gui.panel.MealPlanPanel;
+import fr.oiha.mealplanner.gui.panel.ProductPanel;
+import fr.oiha.mealplanner.gui.component.DarkButton;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Main GUI window for the Meal Planner application
- */
+
 public class MainFrame {
     private JFrame frame;
     private JToolBar toolBar;
-    private JButton mealButton;
-    private JButton ingredientsButton;
-    private JButton mealPlannerButton;
+    private DarkButton mealButton;
+    private DarkButton ingredientsButton;
+    private DarkButton mealPlannerButton;
     private JPanel contentPanel;
 
     public MainFrame() {
@@ -23,28 +26,29 @@ public class MainFrame {
     }
 
     private void initComponents() {
-        // Initialize frame
         frame = new JFrame("Meal Planner");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(800, 600));
+        frame.setPreferredSize(new Dimension(850, 600));
         frame.setLayout(new BorderLayout());
 
-        // Initialize components
         toolBar = new JToolBar();
-        mealButton = new JButton("Meal");
-        ingredientsButton = new JButton("Products");
-        mealPlannerButton = new JButton("Meal Planner");
+
+        mealButton = new DarkButton("Meal");
+        ingredientsButton = new DarkButton("Products");
+        mealPlannerButton = new DarkButton("Meal Planner");
         contentPanel = new MealPanel();
 
-        // Setup toolbar
         toolBar.setFloatable(false);
+        toolBar.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
         toolBar.add(mealButton);
         toolBar.add(ingredientsButton);
         toolBar.add(mealPlannerButton);
 
-        // Add components to frame
         frame.add(toolBar, BorderLayout.NORTH);
         frame.add(contentPanel, BorderLayout.CENTER);
+
+        frame.getContentPane().setBackground(Color.DARK_GRAY);
+        toolBar.setBackground(Color.DARK_GRAY);
 
         frame.pack();
         frame.setLocationRelativeTo(null);

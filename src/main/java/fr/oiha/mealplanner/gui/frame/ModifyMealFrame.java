@@ -1,6 +1,8 @@
-package fr.oiha.mealplanner.gui;
+package fr.oiha.mealplanner.gui.frame;
 
 import fr.oiha.mealplanner.exception.MealNotFoundException;
+import fr.oiha.mealplanner.gui.component.DarkButton;
+import fr.oiha.mealplanner.gui.panel.MealPanel;
 import fr.oiha.mealplanner.model.Ingredient;
 import fr.oiha.mealplanner.model.Meal;
 import fr.oiha.mealplanner.model.Product;
@@ -9,6 +11,7 @@ import fr.oiha.mealplanner.service.MealPlannerService;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,10 +25,10 @@ public class ModifyMealFrame extends JFrame {
     private JTextArea recipeArea;
     private JTable ingredientsTable;
     private DefaultTableModel tableModel;
-    private JButton addIngredientButton;
-    private JButton removeIngredientButton;
-    private JButton saveButton;
-    private JButton cancelButton;
+    private DarkButton addIngredientButton;
+    private DarkButton removeIngredientButton;
+    private DarkButton saveButton;
+    private DarkButton cancelButton;
     private MealPanel parentFrame;
     private int id;
 
@@ -46,27 +49,54 @@ public class ModifyMealFrame extends JFrame {
 
     private void initComponents() {
         nameField = new JTextField(20);
+        nameField.setBackground(Color.DARK_GRAY);
+        nameField.setForeground(Color.WHITE);
+
         recipeArea = new JTextArea(5, 20);
         recipeArea.setLineWrap(true);
         recipeArea.setWrapStyleWord(true);
+        recipeArea.setBackground(Color.DARK_GRAY);
+        recipeArea.setForeground(Color.WHITE);
 
-        // Table for ingredients
+        
         String[] columnNames = {"Product", "Quantity", "Unit"};
         tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 1; // Only quantity is editable
+                return column == 1; 
             }
         };
         ingredientsTable = new JTable(tableModel);
         ingredientsTable.getColumnModel().getColumn(0).setPreferredWidth(200);
         ingredientsTable.getColumnModel().getColumn(1).setPreferredWidth(80);
         ingredientsTable.getColumnModel().getColumn(2).setPreferredWidth(80);
+        ingredientsTable.setBackground(Color.DARK_GRAY);
+        ingredientsTable.setForeground(Color.WHITE);
+        ingredientsTable.setGridColor(Color.GRAY);
+        ingredientsTable.setSelectionBackground(Color.GRAY);
+        ingredientsTable.setSelectionForeground(Color.WHITE);
 
-        addIngredientButton = new JButton("Add Ingredient");
-        removeIngredientButton = new JButton("Remove Ingredient");
-        saveButton = new JButton("Save");
-        cancelButton = new JButton("Cancel");
+        JTableHeader tableHeader = ingredientsTable.getTableHeader();
+        tableHeader.setBackground(Color.DARK_GRAY);
+        tableHeader.setForeground(Color.WHITE);
+        tableHeader.setReorderingAllowed(false);
+
+        JScrollPane tableScrollPane = new JScrollPane(ingredientsTable);
+        tableScrollPane.getViewport().setBackground(Color.DARK_GRAY);
+        tableScrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+
+        addIngredientButton = new DarkButton("Add Ingredient");
+        addIngredientButton.setPreferredSize(new Dimension(140, 40));
+        removeIngredientButton = new DarkButton("Remove Ingredient");
+        removeIngredientButton.setPreferredSize(new Dimension(170, 40));
+        saveButton = new DarkButton("Save");
+        cancelButton = new DarkButton("Cancel");
+
+        
+        addIngredientButton.setHoverBackgroundColor(Color.LIGHT_GRAY);
+        removeIngredientButton.setHoverBackgroundColor(Color.LIGHT_GRAY);
+        saveButton.setHoverBackgroundColor(new Color(82, 113, 82)); 
+        cancelButton.setHoverBackgroundColor(new Color(128, 52, 52)); 
     }
 
     private void loadMealData() {
@@ -92,29 +122,35 @@ public class ModifyMealFrame extends JFrame {
     private void setupLayout() {
         JPanel contentPanel = new JPanel(new BorderLayout(10, 10));
         contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        contentPanel.setBackground(Color.DARK_GRAY);
 
-        // Form panel for name and recipe
+        
         JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBackground(Color.DARK_GRAY);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.anchor = GridBagConstraints.WEST;
 
-        // Name field
+        
         gbc.gridx = 0;
         gbc.gridy = 0;
-        formPanel.add(new JLabel("Meal Name:"), gbc);
+        JLabel nameLabel = new JLabel("Meal Name:");
+        nameLabel.setForeground(Color.WHITE);
+        formPanel.add(nameLabel, gbc);
 
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;
         formPanel.add(nameField, gbc);
 
-        // Recipe field
+        
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.NONE;
         gbc.weightx = 0.0;
-        formPanel.add(new JLabel("Recipe:"), gbc);
+        JLabel recipeLabel = new JLabel("Recipe:");
+        recipeLabel.setForeground(Color.WHITE);
+        formPanel.add(recipeLabel, gbc);
 
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.BOTH;
@@ -125,22 +161,27 @@ public class ModifyMealFrame extends JFrame {
 
         contentPanel.add(formPanel, BorderLayout.NORTH);
 
-        // Ingredients panel
+        
         JPanel ingredientsPanel = new JPanel(new BorderLayout(5, 5));
-        ingredientsPanel.setBorder(BorderFactory.createTitledBorder("Ingredients"));
+        ingredientsPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Ingredients", 0, 0, null, Color.WHITE));
+        ingredientsPanel.setBackground(Color.DARK_GRAY);
 
         JScrollPane tableScrollPane = new JScrollPane(ingredientsTable);
+        tableScrollPane.getViewport().setBackground(Color.DARK_GRAY);
+        tableScrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         ingredientsPanel.add(tableScrollPane, BorderLayout.CENTER);
 
         JPanel ingredientButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        ingredientButtonPanel.setBackground(Color.DARK_GRAY);
         ingredientButtonPanel.add(addIngredientButton);
         ingredientButtonPanel.add(removeIngredientButton);
         ingredientsPanel.add(ingredientButtonPanel, BorderLayout.SOUTH);
 
         contentPanel.add(ingredientsPanel, BorderLayout.CENTER);
 
-        // Button panel
+        
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonPanel.setBackground(Color.DARK_GRAY);
         buttonPanel.add(saveButton);
         buttonPanel.add(cancelButton);
         contentPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -199,13 +240,15 @@ public class ModifyMealFrame extends JFrame {
         dialog.setSize(350, 200);
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout(10, 10));
+        dialog.getContentPane().setBackground(Color.DARK_GRAY);
 
         JPanel panel = new JPanel(new GridBagLayout());
+        panel.setBackground(Color.DARK_GRAY);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.anchor = GridBagConstraints.WEST;
 
-        // Product dropdown
+        
         Set<Product> products = MealPlannerService.getInstance().getProducts();
         if (products.isEmpty()) {
             JOptionPane.showMessageDialog(this,
@@ -219,24 +262,32 @@ public class ModifyMealFrame extends JFrame {
         for (Product product : products) {
             productComboBox.addItem(product);
         }
+        productComboBox.setBackground(Color.DARK_GRAY);
+        productComboBox.setForeground(Color.WHITE);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        panel.add(new JLabel("Product:"), gbc);
+        JLabel productLabel = new JLabel("Product:");
+        productLabel.setForeground(Color.WHITE);
+        panel.add(productLabel, gbc);
 
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(productComboBox, gbc);
 
-        // Quantity field
+        
         JFormattedTextField quantityField = new JFormattedTextField(NumberFormat.getNumberInstance());
         quantityField.setValue(1.0);
         quantityField.setColumns(10);
+        quantityField.setBackground(Color.DARK_GRAY);
+        quantityField.setForeground(Color.WHITE);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.NONE;
-        panel.add(new JLabel("Quantity:"), gbc);
+        JLabel quantityLabel = new JLabel("Quantity:");
+        quantityLabel.setForeground(Color.WHITE);
+        panel.add(quantityLabel, gbc);
 
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -244,10 +295,14 @@ public class ModifyMealFrame extends JFrame {
 
         dialog.add(panel, BorderLayout.CENTER);
 
-        // Buttons
+        
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JButton addButton = new JButton("Add");
-        JButton cancelButton = new JButton("Cancel");
+        buttonPanel.setBackground(Color.DARK_GRAY);
+        DarkButton addButton = new DarkButton("Add");
+        DarkButton cancelButton = new DarkButton("Cancel");
+
+        addButton.setHoverBackgroundColor(Color.LIGHT_GRAY);
+        cancelButton.setHoverBackgroundColor(Color.LIGHT_GRAY);
 
         addButton.addActionListener(new ActionListener() {
             @Override

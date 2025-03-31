@@ -1,5 +1,7 @@
-package fr.oiha.mealplanner.gui;
+package fr.oiha.mealplanner.gui.frame;
 
+import fr.oiha.mealplanner.gui.component.DarkButton;
+import fr.oiha.mealplanner.gui.panel.ProductPanel;
 import fr.oiha.mealplanner.service.DataStorageService;
 import fr.oiha.mealplanner.service.MealPlannerService;
 
@@ -15,8 +17,8 @@ public class AddProductFrame extends JFrame {
     private JFormattedTextField pricePerPackField;
     private ProductPanel parentFrame;
 
-    private JButton addButton;
-    private JButton cancelButton;
+    private DarkButton addButton;
+    private DarkButton cancelButton;
 
     public AddProductFrame(ProductPanel parent) {
         super("Add New Product");
@@ -29,13 +31,20 @@ public class AddProductFrame extends JFrame {
         initComponents();
         setupLayout();
         setupEventHandlers();
+        
+        // Set the background color of the frame
+        getContentPane().setBackground(Color.DARK_GRAY);
     }
 
     private void initComponents() {
         nameField = new JTextField(20);
+        nameField.setBackground(Color.DARK_GRAY);
+        nameField.setForeground(Color.WHITE);
 
         String[] units = {"kg", "g", "L", "ml", "unit", "pack"};
         unitComboBox = new JComboBox<>(units);
+        unitComboBox.setBackground(Color.DARK_GRAY);
+        unitComboBox.setForeground(Color.WHITE);
 
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
         numberFormat.setMinimumFractionDigits(2);
@@ -43,57 +52,73 @@ public class AddProductFrame extends JFrame {
         weightPerPackField = new JFormattedTextField(numberFormat);
         weightPerPackField.setValue(1.0);
         weightPerPackField.setColumns(10);
+        weightPerPackField.setBackground(Color.DARK_GRAY);
+        weightPerPackField.setForeground(Color.WHITE);
 
         pricePerPackField = new JFormattedTextField(numberFormat);
         pricePerPackField.setValue(0.0);
         pricePerPackField.setColumns(10);
+        pricePerPackField.setBackground(Color.DARK_GRAY);
+        pricePerPackField.setForeground(Color.WHITE);
 
-        addButton = new JButton("Add");
-        cancelButton = new JButton("Cancel");
+        addButton = new DarkButton("Add");
+        cancelButton = new DarkButton("Cancel");
+
+        addButton.setHoverBackgroundColor(new Color(82, 113, 82));
+        cancelButton.setHoverBackgroundColor(new Color(128, 52, 52));
     }
 
     private void setupLayout() {
         JPanel contentPanel = new JPanel(new BorderLayout(10, 10));
         contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Form panel with labels and fields
+
         JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBackground(Color.DARK_GRAY);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.anchor = GridBagConstraints.WEST;
 
-        // Name field
+
         gbc.gridx = 0;
         gbc.gridy = 0;
-        formPanel.add(new JLabel("Product Name:"), gbc);
+        JLabel nameLabel = new JLabel("Product Name:");
+        nameLabel.setForeground(Color.WHITE);
+        formPanel.add(nameLabel, gbc);
 
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         formPanel.add(nameField, gbc);
 
-        // Unit field
+
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.NONE;
-        formPanel.add(new JLabel("Unit:"), gbc);
+        JLabel unitLabel = new JLabel("Unit:");
+        unitLabel.setForeground(Color.WHITE);
+        formPanel.add(unitLabel, gbc);
 
         gbc.gridx = 1;
         formPanel.add(unitComboBox, gbc);
 
-        // Weight per pack field
+
         gbc.gridx = 0;
         gbc.gridy = 2;
-        formPanel.add(new JLabel("Weight per Pack:"), gbc);
+        JLabel weightLabel = new JLabel("Weight per Pack:");
+        weightLabel.setForeground(Color.WHITE);
+        formPanel.add(weightLabel, gbc);
 
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         formPanel.add(weightPerPackField, gbc);
 
-        // Price per pack field
+
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.NONE;
-        formPanel.add(new JLabel("Price per Pack (€):"), gbc);
+        JLabel priceLabel = new JLabel("Price per Pack (€):");
+        priceLabel.setForeground(Color.WHITE);
+        formPanel.add(priceLabel, gbc);
 
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -101,8 +126,9 @@ public class AddProductFrame extends JFrame {
 
         contentPanel.add(formPanel, BorderLayout.CENTER);
 
-        // Button panel
+
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonPanel.setBackground(Color.DARK_GRAY);
         buttonPanel.add(addButton);
         buttonPanel.add(cancelButton);
         contentPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -182,7 +208,6 @@ public class AddProductFrame extends JFrame {
 
         return true;
     }
-
 
     public String getProductName() {
         return nameField.getText().trim();

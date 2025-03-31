@@ -1,5 +1,8 @@
-package fr.oiha.mealplanner.gui;
+package fr.oiha.mealplanner.gui.panel;
 
+import fr.oiha.mealplanner.gui.component.DarkButton;
+import fr.oiha.mealplanner.gui.frame.AddProductFrame;
+import fr.oiha.mealplanner.gui.frame.ModifyProductFrame;
 import fr.oiha.mealplanner.service.MealPlannerService;
 
 import javax.swing.*;
@@ -8,9 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Panel for displaying and managing products/ingredients
- */
+
 public class ProductPanel extends JPanel {
     private JToolBar toolBar;
     private JButton addProductButton;
@@ -27,29 +28,43 @@ public class ProductPanel extends JPanel {
     }
 
     private void initComponents() {
-        // Initialize components
+        
         toolBar = new JToolBar();
-        addProductButton = new JButton("Add a product");
-        modifyButton = new JButton("Modify a product");
-        deleteButton = new JButton("Delete a product");
+        addProductButton = new DarkButton("Add a product");
+        modifyButton = new DarkButton("Modify a product");
+        deleteButton = new DarkButton("Delete a product");
         scrollPane = new JScrollPane();
         productTable = new JTable();
 
-        // Setup panel
+        
         setLayout(new BorderLayout());
+        setBackground(Color.DARK_GRAY);
 
-        // Setup toolbar
+        
         toolBar.setFloatable(false);
+        toolBar.setBackground(Color.DARK_GRAY);
+        toolBar.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+        addProductButton.setBackground(Color.DARK_GRAY);
+        addProductButton.setForeground(Color.WHITE);
+        modifyButton.setBackground(Color.DARK_GRAY);
+        modifyButton.setForeground(Color.WHITE);
+        deleteButton.setBackground(Color.DARK_GRAY);
+        deleteButton.setForeground(Color.WHITE);
         toolBar.add(addProductButton);
         toolBar.add(modifyButton);
         toolBar.add(deleteButton);
         add(toolBar, BorderLayout.NORTH);
 
-        // Setup table
+        
         productTable.setShowHorizontalLines(true);
         productTable.setShowVerticalLines(true);
         productTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         productTable.setRowSelectionAllowed(true);
+        productTable.setBackground(Color.DARK_GRAY);
+        productTable.setForeground(Color.WHITE);
+        productTable.setGridColor(Color.GRAY);
+        productTable.setSelectionBackground(Color.GRAY);
+        productTable.setSelectionForeground(Color.WHITE);
         productTable.setModel(new DefaultTableModel(
                 new Object[][] {
                 },
@@ -57,8 +72,13 @@ public class ProductPanel extends JPanel {
                         "ID", "Product Name", "Price", "Unit"
                 }
         ));
+
+        JTableHeader tableHeader = productTable.getTableHeader();
+        tableHeader.setBackground(Color.DARK_GRAY);
+        tableHeader.setForeground(Color.WHITE);
+        tableHeader.setReorderingAllowed(false);
+
         
-        // Cacher la colonne ID
         TableColumnModel columnModel = productTable.getColumnModel();
         columnModel.getColumn(0).setMinWidth(0);
         columnModel.getColumn(0).setMaxWidth(0);
@@ -66,6 +86,8 @@ public class ProductPanel extends JPanel {
         columnModel.getColumn(0).setResizable(false);
 
         scrollPane.setViewportView(productTable);
+        scrollPane.getViewport().setBackground(Color.DARK_GRAY);
+        scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         add(scrollPane, BorderLayout.CENTER);
     }
 
@@ -86,7 +108,7 @@ public class ProductPanel extends JPanel {
                     return;
                 }
                 
-                // Récupérer l'ID réel du produit depuis la colonne cachée
+                
                 int productId = (Integer) productTable.getValueAt(productTable.getSelectedRow(), 0);
                 ModifyProductFrame dialog = new ModifyProductFrame(ProductPanel.this, productId);
                 dialog.setVisible(true);
@@ -101,7 +123,7 @@ public class ProductPanel extends JPanel {
                     return;
                 }
                 
-                // Récupérer l'ID réel du produit depuis la colonne cachée
+                
                 int productId = (Integer) productTable.getValueAt(productTable.getSelectedRow(), 0);
                 MealPlannerService.getInstance().removeProduct(productId);
                 loadProducts();

@@ -1,5 +1,8 @@
-package fr.oiha.mealplanner.gui;
+package fr.oiha.mealplanner.gui.panel;
 
+import fr.oiha.mealplanner.gui.component.DarkButton;
+import fr.oiha.mealplanner.gui.frame.AddMealFrame;
+import fr.oiha.mealplanner.gui.frame.ModifyMealFrame;
 import fr.oiha.mealplanner.service.MealPlannerService;
 import fr.oiha.mealplanner.model.Ingredient;
 import fr.oiha.mealplanner.model.Meal;
@@ -36,27 +39,51 @@ public class MealPanel extends JPanel {
     private void initComponents() {
         // Initialize components
         toolBar = new JToolBar();
-        addMealButton = new JButton("Add a meal");
-        modifyButton = new JButton("Modify a meal");
-        deleteButton = new JButton("Delete a meal");
+        addMealButton = new DarkButton("Add a meal");
+        modifyButton = new DarkButton("Modify a meal");
+        deleteButton = new DarkButton("Delete a meal");
         scrollPane = new JScrollPane();
-        mealTable = new JTable();
+        scrollPane.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+        mealTable = new JTable() {
+            @Override
+            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+                Component component = super.prepareRenderer(renderer, row, column);
+                if (component instanceof JComponent) {
+                    ((JComponent) component).setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+                }
+                return component;
+            }
+        };
 
-        // Setup panel
+
         setLayout(new BorderLayout());
+        setBackground(Color.DARK_GRAY);
 
-        // Setup toolbar
+
         toolBar.setFloatable(false);
+        toolBar.setBackground(Color.DARK_GRAY);
+        toolBar.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+        addMealButton.setBackground(Color.DARK_GRAY);
+        addMealButton.setForeground(Color.WHITE);
+        modifyButton.setBackground(Color.DARK_GRAY);
+        modifyButton.setForeground(Color.WHITE);
+        deleteButton.setBackground(Color.DARK_GRAY);
+        deleteButton.setForeground(Color.WHITE);
         toolBar.add(addMealButton);
         toolBar.add(modifyButton);
         toolBar.add(deleteButton);
         add(toolBar, BorderLayout.NORTH);
 
-        // Setup table
+
         mealTable.setShowHorizontalLines(true);
         mealTable.setShowVerticalLines(true);
         mealTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         mealTable.setRowSelectionAllowed(true);
+        mealTable.setBackground(Color.DARK_GRAY);
+        mealTable.setForeground(Color.WHITE);
+        mealTable.setGridColor(Color.GRAY);
+        mealTable.setSelectionBackground(Color.GRAY);
+        mealTable.setSelectionForeground(Color.WHITE);
         mealTable.setModel(new DefaultTableModel(
                 new Object[][] {
                 },
@@ -65,7 +92,14 @@ public class MealPanel extends JPanel {
                 }
         ));
 
+        JTableHeader tableHeader = mealTable.getTableHeader();
+        tableHeader.setBackground(Color.DARK_GRAY);
+        tableHeader.setForeground(Color.WHITE);
+        tableHeader.setReorderingAllowed(false);
+
         scrollPane.setViewportView(mealTable);
+        scrollPane.getViewport().setBackground(Color.DARK_GRAY);
+        scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         add(scrollPane, BorderLayout.CENTER);
     }
 
@@ -86,7 +120,7 @@ public class MealPanel extends JPanel {
                     JOptionPane.showMessageDialog(MealPanel.this, "Please select a meal to modify");
                     return;
                 }
-                // Récupérer l'ID du repas à partir de la ligne sélectionnée
+
                 Integer mealId = rowToMealId.get(selectedRow);
                 if (mealId == null) {
                     JOptionPane.showMessageDialog(MealPanel.this, "Error: Could not find meal ID");
@@ -105,7 +139,7 @@ public class MealPanel extends JPanel {
                     JOptionPane.showMessageDialog(MealPanel.this, "Please select a meal to delete");
                     return;
                 }
-                // Récupérer l'ID du repas à partir de la ligne sélectionnée
+
                 Integer mealId = rowToMealId.get(selectedRow);
                 if (mealId == null) {
                     JOptionPane.showMessageDialog(MealPanel.this, "Error: Could not find meal ID");
@@ -123,10 +157,10 @@ public class MealPanel extends JPanel {
         int rowIndex = 0;
 
         for (Meal meal : MealPlannerService.getInstance().getMeals()) {
-            // Calculate total price
+
             double totalPrice = 0.0;
             for (Ingredient ingredient : meal.getIngredients()) {
-                // Calculate cost based on the proportion of the pack used
+
                 double proportion = ingredient.getQuantity() / ingredient.getProduct().getWeightPerPack();
                 totalPrice += proportion * ingredient.getProduct().getPricePerPack();
             }
@@ -137,7 +171,7 @@ public class MealPanel extends JPanel {
                     meal.getIngredients().size()
             });
 
-            // Enregistrer l'ID du repas pour cette ligne
+
             rowToMealId.put(rowIndex, meal.getId());
             rowIndex++;
         }

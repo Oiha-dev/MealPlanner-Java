@@ -107,12 +107,12 @@ public class MealPlannerService {
         }
 
         List<Meal> allMeals = new ArrayList<>(meals);
-        Collections.shuffle(allMeals); // Mélange aléatoire des repas
+        Collections.shuffle(allMeals); 
 
         List<Meal> selectedMeals = new ArrayList<>();
         double totalCost = 0.0;
 
-        // On prend des repas jusqu'à atteindre le nombre demandé ou le budget max
+        
         for (Meal meal : allMeals) {
             if (selectedMeals.size() >= mealCount) {
                 break;

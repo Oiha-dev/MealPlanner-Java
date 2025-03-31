@@ -1,72 +1,72 @@
 [
   {
-    "id": 0,
-    "name": "Rice",
-    "pricePerPack": 2.50,
+    "id": 1,
+    "name": "Pasta",
+    "pricePerPack": 1.2,
+    "weightPerPack": 500.0,
+    "unit": "g"
+  },
+  {
+    "id": 8,
+    "name": "Eggs",
+    "pricePerPack": 2.2,
+    "weightPerPack": 12.0,
+    "unit": "unit"
+  },
+  {
+    "id": 3,
+    "name": "Ground Beef",
+    "pricePerPack": 5.8,
+    "weightPerPack": 500.0,
+    "unit": "g"
+  },
+  {
+    "id": 5,
+    "name": "Onions",
+    "pricePerPack": 1.2,
     "weightPerPack": 1.0,
     "unit": "kg"
   },
   {
-    "id": 1,
-    "name": "Pasta",
-    "pricePerPack": 1.20,
-    "weightPerPack": 500.0,
+    "id": 9,
+    "name": "Cheese",
+    "pricePerPack": 3.5,
+    "weightPerPack": 200.0,
     "unit": "g"
   },
   {
     "id": 2,
     "name": "Chicken Breast",
-    "pricePerPack": 6.50,
+    "pricePerPack": 6.5,
     "weightPerPack": 1.0,
     "unit": "kg"
-  },
-  {
-    "id": 3,
-    "name": "Ground Beef",
-    "pricePerPack": 5.80,
-    "weightPerPack": 500.0,
-    "unit": "g"
   },
   {
     "id": 4,
     "name": "Tomatoes",
-    "pricePerPack": 2.30,
+    "pricePerPack": 2.3,
     "weightPerPack": 1.0,
     "unit": "kg"
-  },
-  {
-    "id": 5,
-    "name": "Onions",
-    "pricePerPack": 1.20,
-    "weightPerPack": 1.0,
-    "unit": "kg"
-  },
-  {
-    "id": 6,
-    "name": "Olive Oil",
-    "pricePerPack": 4.90,
-    "weightPerPack": 750.0,
-    "unit": "ml"
   },
   {
     "id": 7,
     "name": "Milk",
-    "pricePerPack": 1.10,
+    "pricePerPack": 1.1,
     "weightPerPack": 1.0,
     "unit": "L"
   },
   {
-    "id": 8,
-    "name": "Eggs",
-    "pricePerPack": 2.20,
-    "weightPerPack": 12.0,
-    "unit": "unit"
+    "id": 6,
+    "name": "Olive Oil",
+    "pricePerPack": 4.9,
+    "weightPerPack": 750.0,
+    "unit": "ml"
   },
   {
-    "id": 9,
-    "name": "Cheese",
-    "pricePerPack": 3.50,
-    "weightPerPack": 200.0,
-    "unit": "g"
+    "id": 0,
+    "name": "Rice",
+    "pricePerPack": 2.5,
+    "weightPerPack": 1.0,
+    "unit": "kg"
   }
 ]

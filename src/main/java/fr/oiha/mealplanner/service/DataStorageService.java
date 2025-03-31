@@ -82,11 +82,11 @@ public class DataStorageService {
         }
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
-            // Écrire le titre du plan de repas
+
             writer.println("# " + mealPlan.getName());
             writer.println();
 
-            // Écrire la section des repas
+
             writer.println("## Liste des repas");
             writer.println();
 
@@ -103,13 +103,13 @@ public class DataStorageService {
             writer.printf("**Coût total: %.2f €**%n", totalCost);
             writer.println();
 
-            // Écrire la liste de courses
+
             writer.println("## Liste de courses");
             writer.println();
 
             Map<Product, Double> shoppingList = service.generateShoppingList(mealPlan);
 
-            // Compter combien de fois chaque produit apparaît avec la même quantité
+
             Map<String, Integer> productOccurrences = new HashMap<>();
             Map<String, Product> productByIdentifier = new HashMap<>();
             Map<String, Double> quantityByIdentifier = new HashMap<>();
@@ -118,24 +118,24 @@ public class DataStorageService {
                 Product product = entry.getKey();
                 Double quantity = entry.getValue();
 
-                // Créer un identifiant unique pour le produit et sa quantité
+
                 String identifier = product.getId() + "-" + quantity;
 
-                // Stocker le produit et sa quantité
+
                 productByIdentifier.put(identifier, product);
                 quantityByIdentifier.put(identifier, quantity);
 
-                // Incrémenter le compteur d'occurrences
+
                 productOccurrences.put(identifier, productOccurrences.getOrDefault(identifier, 0) + 1);
             }
 
-            // Afficher chaque produit avec son nombre d'occurrences
+
             for (String identifier : productOccurrences.keySet()) {
                 Product product = productByIdentifier.get(identifier);
                 Double quantity = quantityByIdentifier.get(identifier);
                 int occurrences = productOccurrences.get(identifier);
 
-                // Calculer le nombre de paquets nécessaires
+
                 double totalQuantity = quantity;
                 if (occurrences > 1) {
                     totalQuantity = quantity * occurrences;
@@ -155,7 +155,7 @@ public class DataStorageService {
 
             writer.println();
 
-            // Écrire les recettes
+
             writer.println("## Recettes");
             writer.println();
 

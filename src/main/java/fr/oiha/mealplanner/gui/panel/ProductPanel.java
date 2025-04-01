@@ -11,7 +11,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+/**
+ * ProductPanel is a JPanel that displays a list of products in a table format.
+ * It allows users to add, modify, and delete products.
+ * It uses a JToolBar for action buttons and a JTable to display product information.
+ * It also handles the loading of products from the MealPlannerService.
+ */
 public class ProductPanel extends JPanel {
     private JToolBar toolBar;
     private JButton addProductButton;
@@ -131,10 +136,10 @@ public class ProductPanel extends JPanel {
         });
     }
 
-    public JTable getProductTable() {
-        return productTable;
-    }
-
+    /**
+     * Loads the products from the MealPlannerService and populates the product table.
+     * It clears the existing rows in the table and adds new rows for each product.
+     */
     public void loadProducts() {
         ((DefaultTableModel) productTable.getModel()).setRowCount(0);
         MealPlannerService.getInstance().getProducts().forEach(p -> {

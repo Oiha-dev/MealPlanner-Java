@@ -1,5 +1,12 @@
 package fr.oiha.mealplanner.model;
 
+/**
+ * Represents a product in the meal planner.
+ * Contains a name, price per pack, weight per pack, and unit.
+ * The product has a unique ID.
+ * It is used to manage products for meals and ingredients.
+ * The product can be saved and loaded from a file.
+ */
 public class Product {
     private final int id;
     private String name;

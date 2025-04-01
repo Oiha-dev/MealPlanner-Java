@@ -17,6 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Frame for adding a new meal
+ * This frame allows the user to enter the meal name, recipe, and ingredients.
+ */
 public class AddMealFrame extends JFrame {
     private JTextField nameField;
     private JTextArea recipeArea;
@@ -97,14 +101,12 @@ public class AddMealFrame extends JFrame {
         contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         contentPanel.setBackground(Color.DARK_GRAY);
 
-        // Form panel for name and recipe
         JPanel formPanel = new JPanel(new GridBagLayout());
         formPanel.setBackground(Color.DARK_GRAY);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.anchor = GridBagConstraints.WEST;
 
-        // Name field
         gbc.gridx = 0;
         gbc.gridy = 0;
         JLabel nameLabel = new JLabel("Meal Name:");
@@ -116,7 +118,6 @@ public class AddMealFrame extends JFrame {
         gbc.weightx = 1.0;
         formPanel.add(nameField, gbc);
 
-        // Recipe field
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.NONE;
@@ -161,6 +162,7 @@ public class AddMealFrame extends JFrame {
     }
 
     private void setupEventHandlers() {
+        // Show the dialog to add an ingredient
         addIngredientButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -168,6 +170,8 @@ public class AddMealFrame extends JFrame {
             }
         });
 
+        // Remove the selected ingredient from the table
+        // If no ingredient is selected, show a warning message
         removeIngredientButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -183,6 +187,8 @@ public class AddMealFrame extends JFrame {
             }
         });
 
+        // Save the meal
+        // Validate the input fields and save the meal
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -196,6 +202,7 @@ public class AddMealFrame extends JFrame {
             }
         });
 
+        // Cancel the action and close the dialog
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -206,6 +213,10 @@ public class AddMealFrame extends JFrame {
         getRootPane().setDefaultButton(saveButton);
     }
 
+    /**
+     * Shows a dialog to add an ingredient to the meal
+     * This dialog allows the user to select a product and enter the quantity
+     */
     private void showAddIngredientDialog() {
         JDialog dialog = new JDialog(this, "Add Ingredient", true);
         dialog.setSize(350, 200);
@@ -246,7 +257,6 @@ public class AddMealFrame extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(productComboBox, gbc);
 
-        // Quantity field
         JFormattedTextField quantityField = new JFormattedTextField(NumberFormat.getNumberInstance());
         quantityField.setValue(1.0);
         quantityField.setColumns(10);
@@ -266,7 +276,6 @@ public class AddMealFrame extends JFrame {
 
         dialog.add(panel, BorderLayout.CENTER);
 
-        // Buttons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         buttonPanel.setBackground(Color.DARK_GRAY);
         DarkButton addButton = new DarkButton("Add");
@@ -275,6 +284,9 @@ public class AddMealFrame extends JFrame {
         addButton.setHoverBackgroundColor(Color.LIGHT_GRAY);
         cancelButton.setHoverBackgroundColor(Color.LIGHT_GRAY);
 
+
+        // Add the selected product and quantity to the table
+        // Validate the quantity and show an error message if invalid
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -306,6 +318,7 @@ public class AddMealFrame extends JFrame {
             }
         });
 
+        // Cancel the action and close the dialog
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -321,6 +334,11 @@ public class AddMealFrame extends JFrame {
         dialog.setVisible(true);
     }
 
+    /**
+     * Validates the input fields
+     * Checks if the meal name is empty and if at least one ingredient is added
+     * @return true if the input is valid, false otherwise
+     */
     private boolean validateInput() {
         if (nameField.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this,
@@ -342,6 +360,11 @@ public class AddMealFrame extends JFrame {
         return true;
     }
 
+    /**
+     * Saves the meal to the MealPlannerService
+     * This method retrieves the meal name, recipe, and ingredients from the input fields
+     * and adds the meal to the service
+     */
     private void saveMeal() {
         String name = nameField.getText().trim();
         String recipe = recipeArea.getText().trim();

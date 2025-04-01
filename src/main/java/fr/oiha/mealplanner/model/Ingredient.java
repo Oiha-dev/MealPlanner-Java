@@ -1,5 +1,9 @@
 package fr.oiha.mealplanner.model;
 
+/**
+ * Represents an ingredient in a meal.
+ * Contains a product and its quantity.
+ */
 public class Ingredient {
     private Product product;
     private double quantity;

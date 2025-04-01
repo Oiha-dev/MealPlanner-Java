@@ -2,6 +2,11 @@ package fr.oiha.mealplanner.model;
 
 import java.util.List;
 
+/**
+ * Represents a meal in the meal planner.
+ * Contains a name, recipe, and a list of ingredients.
+ * The meal has a unique ID.
+ */
 public class Meal {
     private final int id;
     private String name;

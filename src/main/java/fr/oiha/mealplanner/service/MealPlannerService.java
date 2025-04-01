@@ -9,6 +9,12 @@ import fr.oiha.mealplanner.model.Product;
 
 import java.util.*;
 
+/**
+ * MealPlannerService is a singleton class that manages the meal planning process.
+ * It handles the addition, modification, and removal of products and meals.
+ * It also generates meal plans and shopping lists based on user preferences.
+ * It uses a DataStorageService to save and load data.
+ */
 public class MealPlannerService {
     private static MealPlannerService instance;
     private Set<Product> products;
@@ -19,6 +25,12 @@ public class MealPlannerService {
     private DataStorageService storageService;
     private Map<Product, Double> shoppingList;
 
+    /**
+     * Private constructor for the MealPlannerService.
+     * Initializes the product and meal sets.
+     * Loads products and meals from the storage service.
+     * Sets the product and meal counters based on loaded data.
+     */
     private MealPlannerService() {
         storageService = new DataStorageService();
         List<Product> loadedProducts = storageService.loadProducts();
@@ -46,6 +58,10 @@ public class MealPlannerService {
         shoppingList = new HashMap<>();
     }
 
+    /**
+     * Singleton instance getter for MealPlannerService.
+     * @return the singleton instance of MealPlannerService
+     */
     public static MealPlannerService getInstance() {
         if (instance == null) {
             instance = new MealPlannerService();
@@ -53,11 +69,27 @@ public class MealPlannerService {
         return instance;
     }
 
+    /**
+     * Adds a new product to the product set.
+     * @param name the name of the product
+     * @param pricePerPack the price per pack of the product
+     * @param weightPerPack the weight per pack of the product
+     * @param unit the unit of measurement for the product
+     */
     public void addProduct(String name, double pricePerPack, double weightPerPack, String unit) {
         Product product = new Product(productCounter++, name, pricePerPack, weightPerPack, unit);
         products.add(product);
     }
 
+    /**
+     * Modifies an existing product in the product set.
+     * @param id the ID of the product to modify
+     * @param name the new name of the product
+     * @param pricePerPack the new price per pack of the product
+     * @param weightPerPack the new weight per pack of the product
+     * @param unit the new unit of measurement for the product
+     * @throws ProductNotFoundException if the product with the given ID is not found
+     */
     public void modifyProduct(int id, String name, double pricePerPack, double weightPerPack, String unit) throws ProductNotFoundException {
         for (Product product : products) {
             if (product.getId() == id) {
@@ -72,22 +104,46 @@ public class MealPlannerService {
         throw new ProductNotFoundException(id);
     }
 
+    /**
+     * Removes a product from the product set.
+     * @param id the ID of the product to remove
+     */
     public void removeProduct(int id) {
         products.removeIf(product -> product.getId() == id);
         DataStorageService.saveProducts(MealPlannerService.getInstance().getProducts());
     }
 
+    /**
+     * Adds a new meal for the meal set.
+     * @param name the name of the meal
+     * @param ingredients the list of ingredients for the meal
+     * @param recipe the recipe for the meal
+     */
     public void addMeal(String name, List<Ingredient> ingredients, String recipe) {
         Meal meal = new Meal(mealCounter++, name, recipe, ingredients);
         meals.add(meal);
         DataStorageService.saveMeals(getMeals());
     }
 
+    /**
+     * Removes a meal from the meal set.
+     * @param id the ID of the meal to remove
+     */
     public void removeMeal(int id) {
         meals.removeIf(meal -> meal.getId() == id);
         DataStorageService.saveMeals(getMeals());
     }
 
+    /**
+     * Modifies an existing meal in the meal set.
+     * This method updates the meal's name, ingredients, and recipe.
+     * It also saves the updated meals to the storage service.
+     * @param id the ID of the meal to modify
+     * @param name the new name of the meal
+     * @param ingredients the new list of ingredients for the meal
+     * @param recipe the new recipe for the meal
+     * @throws MealNotFoundException if the meal with the given ID is not found
+     */
     public void modifyMeal(int id, String name, List<Ingredient> ingredients, String recipe) throws MealNotFoundException {
         for (Meal meal : meals) {
             if (meal.getId() == id) {
@@ -101,6 +157,14 @@ public class MealPlannerService {
         throw new MealNotFoundException(id);
     }
 
+    /**
+     * Generates a meal plan based on the maximum budget and number of meals.
+     * This method randomly selects meals from the meal set
+     * and ensures that the total cost does not exceed the budget.
+     * @param maxBudget the maximum budget for the meal plan
+     * @param mealCount the number of meals to include in the meal plan
+     * @return a MealPlan object containing the selected meals
+     */
     public MealPlan generateMealPlan(double maxBudget, int mealCount) {
         if (meals.isEmpty()) {
             return null;
@@ -129,6 +193,13 @@ public class MealPlannerService {
         return new MealPlan(mealPlanCounter++, "Plan de repas du " + new Date(), new Date(), selectedMeals);
     }
 
+    /**
+     * Generates a shopping list based on the provided meal plan.
+     * This method iterates through the meals and their ingredients,
+     * aggregating the quantities of each product.
+     * @param plan the meal plan to generate the shopping list from
+     * @return a map of products and their total quantities
+     */
     public Map<Product, Double> generateShoppingList(MealPlan plan) {
         Map<Product, Double> shoppingList = new HashMap<>();
 
@@ -152,6 +223,13 @@ public class MealPlannerService {
         return storageService.exportMealPlanToMarkdown(mealPlan, filePath);
     }
 
+    /**
+     * Calculates the total cost of a meal based on its ingredients.
+     * This method iterates through the ingredients of the meal,
+     * calculating the cost based on the product's price and quantity.
+     * @param meal the meal to calculate the cost for
+     * @return the total cost of the meal
+     */
     public double calculateMealCost(Meal meal) {
         double cost = 0.0;
         for (Ingredient ingredient : meal.getIngredients()) {

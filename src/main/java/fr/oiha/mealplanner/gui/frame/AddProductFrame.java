@@ -10,6 +10,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.NumberFormat;
 
+/**
+ * Frame for adding a new product.
+ * This frame allows the user to input product details such as name, unit, weight per pack, and price per pack.
+ * It validates the input and adds the product to the MealPlannerService.
+ */
 public class AddProductFrame extends JFrame {
     private JTextField nameField;
     private JComboBox<String> unitComboBox;
@@ -137,6 +142,8 @@ public class AddProductFrame extends JFrame {
     }
 
     private void setupEventHandlers() {
+        // This method is called when the "Add" button is clicked
+        // It validates the input and adds the product to the MealPlannerService
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -149,6 +156,8 @@ public class AddProductFrame extends JFrame {
             }
         });
 
+        // This method is called when the "Cancel" button is clicked
+        // It closes the dialog without saving any changes
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -158,6 +167,11 @@ public class AddProductFrame extends JFrame {
         getRootPane().setDefaultButton(addButton);
     }
 
+    /**
+     * Validates the input fields.
+     * Checks if the product name is not empty, if the weight is greater than zero, and if the price is not negative.
+     * @return true if all validations pass, false otherwise.
+     */
     private boolean validateInput() {
         if (nameField.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this,
@@ -208,6 +222,7 @@ public class AddProductFrame extends JFrame {
 
         return true;
     }
+
 
     public String getProductName() {
         return nameField.getText().trim();

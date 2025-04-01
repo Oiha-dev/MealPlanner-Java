@@ -14,7 +14,12 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.text.DecimalFormat;
 
-
+/**
+ * MealPlanPanel is a JPanel that allows users to generate and export meal plans.
+ * It provides options to specify the number of meals and budget,
+ * and displays the generated meal plan in a table format.
+ * It also allows users to export the meal plan to a Markdown file.
+ */
 public class MealPlanPanel extends JPanel {
     private JPanel optionsPanel;
     private JLabel mealCountLabel;
@@ -127,6 +132,12 @@ public class MealPlanPanel extends JPanel {
         exportButton.addActionListener(e -> exportMealPlan());
     }
 
+    /**
+     * Generates a meal plan based on the specified budget and number of meals.
+     * Displays the generated meal plan in a table format.
+     * If the input is invalid or no meals are available,
+     * shows an error message.
+     */
     private void generateMealPlan() {
         try {
             int mealCount = (int) mealCountSpinner.getValue();
@@ -146,6 +157,12 @@ public class MealPlanPanel extends JPanel {
         }
     }
 
+    /**
+     * Exports the current meal plan to a Markdown file.
+     * If no meal plan is generated, shows a warning message.
+     * If the export is successful, shows a success message.
+     * If the export fails, shows an error message.
+     */
     private void exportMealPlan() {
         if (currentMealPlan == null || currentMealPlan.getMeals().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Generate a meal plan first.", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -166,6 +183,11 @@ public class MealPlanPanel extends JPanel {
         }
     }
 
+    /**
+     * Updates the meal plan table with the current meal plan.
+     * Clears the existing rows and adds new rows for each meal.
+     * Calculates the total cost of the meal plan and updates the label.
+     */
     private void updateMealPlanTable() {
         DefaultTableModel model = (DefaultTableModel) mealPlanTable.getModel();
         model.setRowCount(0);

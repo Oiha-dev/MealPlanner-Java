@@ -10,7 +10,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+/**
+ * MainFrame class that serves as the main window for the Meal Planner application.
+ * It contains a toolbar with buttons to navigate between different panels:
+ * Meal, Products, and Meal Planner.
+ * and manages the content displayed in the center panel.
+ * @see MealPanel
+ * @see ProductPanel
+ * @see MealPlanPanel
+ */
 public class MainFrame {
     private JFrame frame;
     private JToolBar toolBar;
@@ -55,6 +63,10 @@ public class MainFrame {
     }
 
     private void setupEventHandlers() {
+        // This method is called when the meal button is clicked
+        // It checks if the current content panel is not already the MealPanel
+        // If not, it removes the current content panel and adds a new MealPanel
+        // Then it validates and repaints the frame to reflect the changes
         mealButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -68,6 +80,10 @@ public class MainFrame {
             }
         });
 
+        // This method is called when the ingredients button is clicked
+        // It checks if the current content panel is not already the ProductPanel
+        // If not, it removes the current content panel and adds a new ProductPanel
+        // Then it validates and repaints the frame to reflect the changes
         ingredientsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,6 +97,10 @@ public class MainFrame {
             }
         });
 
+        // This method is called when the meal planner button is clicked
+        // It checks if the current content panel is not already the MealPlanPanel
+        // If not, it removes the current content panel and adds a new MealPlanPanel
+        // Then it validates and repaints the frame to reflect the changes
         mealPlannerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

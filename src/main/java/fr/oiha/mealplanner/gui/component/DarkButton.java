@@ -5,6 +5,11 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Custom JButton with dark theme and hover effect.
+ * This button changes its background and text color on hover.
+ * It is designed to fit into a dark-themed GUI.
+ */
 public class DarkButton extends JButton {
     private Color hoverBackgroundColor = Color.GRAY;
     private Color originalBackgroundColor = Color.DARK_GRAY;

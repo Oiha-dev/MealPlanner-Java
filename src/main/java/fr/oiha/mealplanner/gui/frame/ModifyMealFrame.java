@@ -2,6 +2,7 @@ package fr.oiha.mealplanner.gui.frame;
 
 import fr.oiha.mealplanner.exception.MealNotFoundException;
 import fr.oiha.mealplanner.gui.component.DarkButton;
+import fr.oiha.mealplanner.gui.dialog.AddIngredientDialog;
 import fr.oiha.mealplanner.gui.panel.MealPanel;
 import fr.oiha.mealplanner.model.Ingredient;
 import fr.oiha.mealplanner.model.Meal;
@@ -20,6 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Frame for modifying a meal
+ * This class allows the user to modify the details of a meal, including its name, recipe, and ingredients.
+ * It provides a user-friendly interface for adding, removing, and saving ingredients.
+ * It also validates the input before saving the changes.
+ */
 public class ModifyMealFrame extends JFrame {
     private JTextField nameField;
     private JTextArea recipeArea;
@@ -99,6 +106,12 @@ public class ModifyMealFrame extends JFrame {
         cancelButton.setHoverBackgroundColor(new Color(128, 52, 52)); 
     }
 
+    /**
+     * Loads the meal data into the form fields and table.
+     * This method retrieves the meal by its ID from the MealPlannerService
+     * and populates the name, recipe, and ingredients fields.
+     * If the meal is not found, it shows an error message and closes the frame.
+     */
     private void loadMealData() {
         Meal meal = MealPlannerService.getInstance().getMeals().stream()
                 .filter(m -> m.getId() == id)
@@ -190,13 +203,18 @@ public class ModifyMealFrame extends JFrame {
     }
 
     private void setupEventHandlers() {
+        // This method is called when the "Add Ingredient" button is clicked.
+        // It opens a dialog to add a new ingredient to the meal.
         addIngredientButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showAddIngredientDialog();
+                new AddIngredientDialog(ModifyMealFrame.this, tableModel).setVisible(true);
             }
         });
 
+        // This method is called when the "Remove Ingredient" button is clicked.
+        // It removes the selected ingredient from the meal.
+        // If no ingredient is selected, it shows a warning message.
         removeIngredientButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -212,6 +230,10 @@ public class ModifyMealFrame extends JFrame {
             }
         });
 
+        // This method is called when the "Save" button is clicked.
+        // It validates the input and saves the modified meal.
+        // If the input is valid, it saves the meal and closes the frame.
+        // If the input is invalid, it shows an error message.
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -225,6 +247,8 @@ public class ModifyMealFrame extends JFrame {
             }
         });
 
+        // This method is called when the "Cancel" button is clicked.
+        // It closes the frame without saving any changes.
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -235,121 +259,12 @@ public class ModifyMealFrame extends JFrame {
         getRootPane().setDefaultButton(saveButton);
     }
 
-    private void showAddIngredientDialog() {
-        JDialog dialog = new JDialog(this, "Add Ingredient", true);
-        dialog.setSize(350, 200);
-        dialog.setLocationRelativeTo(this);
-        dialog.setLayout(new BorderLayout(10, 10));
-        dialog.getContentPane().setBackground(Color.DARK_GRAY);
-
-        JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBackground(Color.DARK_GRAY);
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.anchor = GridBagConstraints.WEST;
-
-        
-        Set<Product> products = MealPlannerService.getInstance().getProducts();
-        if (products.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                    "No products available. Please add products first.",
-                    "No Products",
-                    JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        JComboBox<Product> productComboBox = new JComboBox<>();
-        for (Product product : products) {
-            productComboBox.addItem(product);
-        }
-        productComboBox.setBackground(Color.DARK_GRAY);
-        productComboBox.setForeground(Color.WHITE);
-
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        JLabel productLabel = new JLabel("Product:");
-        productLabel.setForeground(Color.WHITE);
-        panel.add(productLabel, gbc);
-
-        gbc.gridx = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(productComboBox, gbc);
-
-        
-        JFormattedTextField quantityField = new JFormattedTextField(NumberFormat.getNumberInstance());
-        quantityField.setValue(1.0);
-        quantityField.setColumns(10);
-        quantityField.setBackground(Color.DARK_GRAY);
-        quantityField.setForeground(Color.WHITE);
-
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.NONE;
-        JLabel quantityLabel = new JLabel("Quantity:");
-        quantityLabel.setForeground(Color.WHITE);
-        panel.add(quantityLabel, gbc);
-
-        gbc.gridx = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(quantityField, gbc);
-
-        dialog.add(panel, BorderLayout.CENTER);
-
-        
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.setBackground(Color.DARK_GRAY);
-        DarkButton addButton = new DarkButton("Add");
-        DarkButton cancelButton = new DarkButton("Cancel");
-
-        addButton.setHoverBackgroundColor(Color.LIGHT_GRAY);
-        cancelButton.setHoverBackgroundColor(Color.LIGHT_GRAY);
-
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    double quantity = ((Number)quantityField.getValue()).doubleValue();
-                    if (quantity <= 0) {
-                        JOptionPane.showMessageDialog(dialog,
-                                "Quantity must be greater than zero",
-                                "Invalid Quantity",
-                                JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-
-                    Product selectedProduct = (Product)productComboBox.getSelectedItem();
-                    if (selectedProduct != null) {
-                        tableModel.addRow(new Object[]{
-                                selectedProduct,
-                                quantity,
-                                selectedProduct.getUnit()
-                        });
-                        dialog.dispose();
-                    }
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(dialog,
-                            "Please enter a valid quantity",
-                            "Input Error",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
-
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dialog.dispose();
-            }
-        });
-
-        buttonPanel.add(addButton);
-        buttonPanel.add(cancelButton);
-        dialog.add(buttonPanel, BorderLayout.SOUTH);
-
-        dialog.getRootPane().setDefaultButton(addButton);
-        dialog.setVisible(true);
-    }
-
+    /**
+     * Validates the input fields before saving the meal.
+     * This method checks if the meal name is not empty and if at least one ingredient is added.
+     * If any validation fails, it shows an error message and returns false.
+     * @return true if all validations pass, false otherwise.
+     */
     private boolean validateInput() {
         if (nameField.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this,
@@ -371,6 +286,15 @@ public class ModifyMealFrame extends JFrame {
         return true;
     }
 
+    /**
+     * Saves the modified meal to the MealPlannerService.
+     * This method retrieves the meal name, recipe, and ingredients from the form fields,
+     * and updates the meal in the MealPlannerService.
+     * It also saves the updated meals to the data storage.
+     * If the meal is not found, it shows an error message.
+     * @throws MealNotFoundException if the meal is not found in the MealPlannerService.
+     * This exception is caught and handled in the calling method.
+     */
     private void saveMeal() {
         String name = nameField.getText().trim();
         String recipe = recipeArea.getText().trim();

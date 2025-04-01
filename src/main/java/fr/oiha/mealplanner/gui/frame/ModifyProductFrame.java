@@ -11,6 +11,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.NumberFormat;
 
+/**
+ * Frame for modifying an existing product.
+ * This frame allows the user to input product details such as name, unit, weight per pack, and price per pack.
+ * It validates the input and modifies the product in the MealPlannerService.
+ */
 public class ModifyProductFrame extends JFrame {
     private JTextField nameField;
     private JComboBox<String> unitComboBox;
@@ -72,6 +77,10 @@ public class ModifyProductFrame extends JFrame {
         cancelButton.setHoverBackgroundColor(new Color(128, 52, 52)); 
     }
 
+    /**
+     * Loads the product data into the fields for modification.
+     * It retrieves the product from the MealPlannerService using the productId.
+     */
     private void loadProductData() {
         Product product = MealPlannerService.getInstance().getProducts().stream()
                 .filter(p -> p.getId() == productId)
@@ -161,6 +170,9 @@ public class ModifyProductFrame extends JFrame {
         setContentPane(contentPanel);
     }
 
+    // Action to perform when the save button is clicked
+    // It validates the input and modifies the product in the MealPlannerService
+    // If successful, it reloads the products and closes the frame
     private void setupEventHandlers() {
         saveButton.addActionListener(new ActionListener() {
             @Override
@@ -180,6 +192,8 @@ public class ModifyProductFrame extends JFrame {
             }
         });
 
+        // Action to perform when the cancel button is clicked
+        // It simply closes the frame without making any changes
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -189,6 +203,12 @@ public class ModifyProductFrame extends JFrame {
         getRootPane().setDefaultButton(saveButton);
     }
 
+    /**
+     * Validates the input fields.
+     * Checks if the product name is not empty,
+     * if the weight is greater than zero, and if the price is not negative.
+     * @return true if the input is valid, false otherwise
+     */
     private boolean validateInput() {
         if (nameField.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this,

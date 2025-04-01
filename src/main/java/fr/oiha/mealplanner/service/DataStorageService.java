@@ -15,8 +15,19 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 
+/**
+ * DataStorageService is responsible for saving and loading data to and from files.
+ * It uses Gson for JSON serialization and deserialization.
+ * It handles the storage of products, meals, and meal plans.
+ */
 public class DataStorageService {
 
+    /**
+     * Saves a set of products to a JSON file.
+     * The file is named "products.json".
+     * The products are serialized using Gson.
+     * @param products the set of products to save
+     */
     public static void saveProducts(Set<Product> products) {
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json = gson.toJson(products);
@@ -55,6 +66,12 @@ public class DataStorageService {
         }
     }
 
+    /**
+     * Loads meals from a JSON file.
+     * The file is named "meals.json".
+     * The meals are deserialized using Gson.
+     * @return a list of meals
+     */
     public List<Meal> loadMeals() {
         File file = new File("meals.json");
         if (!file.exists()) {
@@ -76,6 +93,12 @@ public class DataStorageService {
         }
     }
 
+    /**
+     * Saves a meal plan to a JSON file.
+     * The file is named "meal_plan.json".
+     * The meal plan is serialized using Gson.
+     * @param mealPlan the meal plan to save
+     */
     public boolean exportMealPlanToMarkdown(MealPlan mealPlan, String filePath) {
         if (mealPlan == null || mealPlan.getMeals() == null || mealPlan.getMeals().isEmpty()) {
             return false;

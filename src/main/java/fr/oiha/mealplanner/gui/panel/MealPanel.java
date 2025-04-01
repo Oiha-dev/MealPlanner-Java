@@ -16,7 +16,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Panel for displaying and managing meals
+ * MealPanel is a JPanel that displays a list of meals in a table format.
+ * It allows users to add, modify, and delete meals.
+ * It uses a JToolBar for action buttons and a JTable to display meal information.
+ * It also handles the loading of meals from the MealPlannerService.
  */
 public class MealPanel extends JPanel {
     private JToolBar toolBar;
@@ -25,7 +28,6 @@ public class MealPanel extends JPanel {
     private JButton deleteButton;
     private JScrollPane scrollPane;
     private JTable mealTable;
-    // Mapping entre les indices de ligne et les IDs de repas
     private Map<Integer, Integer> rowToMealId;
 
     public MealPanel() {
@@ -37,7 +39,6 @@ public class MealPanel extends JPanel {
     }
 
     private void initComponents() {
-        // Initialize components
         toolBar = new JToolBar();
         addMealButton = new DarkButton("Add a meal");
         modifyButton = new DarkButton("Modify a meal");
@@ -104,6 +105,8 @@ public class MealPanel extends JPanel {
     }
 
     private void setupEventHandlers() {
+        // This method is called when the add meal button is clicked
+        // It opens a dialog to add a new meal
         addMealButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -112,6 +115,10 @@ public class MealPanel extends JPanel {
             }
         });
 
+        // This method is called when the modify button is clicked
+        // It checks if a meal is selected and opens a dialog to modify it
+        // If no meal is selected, it shows a message dialog
+        // If the meal ID is not found, it shows an error message
         modifyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -131,6 +138,10 @@ public class MealPanel extends JPanel {
             }
         });
 
+        // This method is called when the delete button is clicked
+        // It checks if a meal is selected and deletes it
+        // If no meal is selected, it shows a message dialog
+        // If the meal ID is not found, it shows an error message
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -151,6 +162,11 @@ public class MealPanel extends JPanel {
         });
     }
 
+    /**
+     * Loads the meals from the MealPlannerService and populates the meal table.
+     * It clears the existing rows in the table and adds new rows for each meal.
+     * It also calculates the total price of each meal based on its ingredients.
+     */
     public void loadMeals() {
         ((DefaultTableModel) mealTable.getModel()).setRowCount(0);
         rowToMealId.clear();
@@ -175,9 +191,5 @@ public class MealPanel extends JPanel {
             rowToMealId.put(rowIndex, meal.getId());
             rowIndex++;
         }
-    }
-
-    public JTable getMealTable() {
-        return mealTable;
     }
 }

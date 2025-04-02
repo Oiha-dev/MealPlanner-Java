@@ -26,7 +26,6 @@ public class AddIngredientDialog extends JDialog {
         setSize(350, 200);
         setLocationRelativeTo(parent);
         setLayout(new BorderLayout(10, 10));
-        getContentPane().setBackground(Color.DARK_GRAY);
 
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -77,8 +76,8 @@ public class AddIngredientDialog extends JDialog {
         CustomButton addButton = new CustomButton("Add");
         CustomButton cancelButton = new CustomButton("Cancel");
 
-        addButton.setHoverBackgroundColor(Color.LIGHT_GRAY);
-        cancelButton.setHoverBackgroundColor(Color.LIGHT_GRAY);
+        addButton.setHoverBackgroundColor(new Color(82, 113, 82));
+        cancelButton.setHoverBackgroundColor(new Color(128, 52, 52));
 
         addButton.addActionListener(new ActionListener() {
             @Override

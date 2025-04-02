@@ -36,8 +36,6 @@ public class ModifyProductFrame extends JFrame {
         setLocationRelativeTo(parent);
         setResizable(false);
 
-        getContentPane().setBackground(Color.DARK_GRAY); 
-
         initComponents();
         loadProductData();
         setupLayout();

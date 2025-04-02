@@ -1,9 +1,10 @@
 ## 📖 Table of contents
 
 1. [**📚 About the project**](#-about-the-project)
-2. [**🚀 How to run the project**](#-how-to-run-the-project)
-3. [**💻 Technologies**](#-technologies)
-4. [**👥 Credits**](#-credits)
+2. [**🎥 Demo**](#Demo)
+3. [**🚀 How to run the project**](#-how-to-run-the-project)
+4. [**💻 Technologies**](#-technologies)
+5. [**👥 Credits**](#-credits)
 
 ---
 
@@ -14,6 +15,11 @@ This project was developed during the Java project, by Ynov Campus. The goal was
 I decided to add some features to the application, such as:
 - 🛒 A shopping list generator
 - ➕ The ability to add your own products and meals
+
+---
+
+## Demo
+![Demo](readmeFiles/demo.gif)
 
 ---
 

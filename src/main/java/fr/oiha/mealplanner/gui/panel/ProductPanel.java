@@ -43,12 +43,6 @@ public class ProductPanel extends JPanel {
         setLayout(new BorderLayout());
 
         toolBar.setFloatable(false);
-        addProductButton.setBackground(Color.DARK_GRAY);
-        addProductButton.setForeground(Color.WHITE);
-        modifyButton.setBackground(Color.DARK_GRAY);
-        modifyButton.setForeground(Color.WHITE);
-        deleteButton.setBackground(Color.DARK_GRAY);
-        deleteButton.setForeground(Color.WHITE);
         toolBar.add(addProductButton);
         toolBar.add(modifyButton);
         toolBar.add(deleteButton);

@@ -19,9 +19,9 @@ I decided to add some features to the application, such as:
 
 ## 🚀 How to run the project
 
-To run the project, you will need to have Java installed on your computer. If you don't have it, you can download it [here](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html).
+To run the project, you will need to have Java installed on your computer. If you don't have it, you can download it [here](https://www.oracle.com/java/technologies/javase-jdk21-downloads.html).
 
-1. Clone the repository (or get it from teh release):
+1. Clone the repository (or get it from the release):
 ```bash
 git clone https://github.com/yourusername/MealPlanner-Java.git
 cd MealPlanner-Java

@@ -23,7 +23,7 @@ To run the project, you will need to have Java installed on your computer. If yo
 
 1. Clone the repository (or get it from the release):
 ```bash
-git clone https://github.com/yourusername/MealPlanner-Java.git
+git clone https://github.com/Oiha-dev/MealPlanner-Java.git
 cd MealPlanner-Java
 ./gradlew fatJar
 ```

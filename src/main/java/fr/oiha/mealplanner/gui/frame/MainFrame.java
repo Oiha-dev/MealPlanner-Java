@@ -3,7 +3,7 @@ package fr.oiha.mealplanner.gui.frame;
 import fr.oiha.mealplanner.gui.panel.MealPanel;
 import fr.oiha.mealplanner.gui.panel.MealPlanPanel;
 import fr.oiha.mealplanner.gui.panel.ProductPanel;
-import fr.oiha.mealplanner.gui.component.DarkButton;
+import fr.oiha.mealplanner.gui.component.CustomButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,9 +22,9 @@ import java.awt.event.ActionListener;
 public class MainFrame {
     private JFrame frame;
     private JToolBar toolBar;
-    private DarkButton mealButton;
-    private DarkButton ingredientsButton;
-    private DarkButton mealPlannerButton;
+    private CustomButton mealButton;
+    private CustomButton ingredientsButton;
+    private CustomButton mealPlannerButton;
     private JPanel contentPanel;
 
     public MainFrame() {
@@ -41,22 +41,18 @@ public class MainFrame {
 
         toolBar = new JToolBar();
 
-        mealButton = new DarkButton("Meal");
-        ingredientsButton = new DarkButton("Products");
-        mealPlannerButton = new DarkButton("Meal Planner");
+        mealButton = new CustomButton("Meal");
+        ingredientsButton = new CustomButton("Products");
+        mealPlannerButton = new CustomButton("Meal Planner");
         contentPanel = new MealPanel();
 
         toolBar.setFloatable(false);
-        toolBar.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
         toolBar.add(mealButton);
         toolBar.add(ingredientsButton);
         toolBar.add(mealPlannerButton);
 
         frame.add(toolBar, BorderLayout.NORTH);
         frame.add(contentPanel, BorderLayout.CENTER);
-
-        frame.getContentPane().setBackground(Color.DARK_GRAY);
-        toolBar.setBackground(Color.DARK_GRAY);
 
         frame.pack();
         frame.setLocationRelativeTo(null);

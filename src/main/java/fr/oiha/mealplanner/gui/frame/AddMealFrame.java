@@ -1,6 +1,6 @@
 package fr.oiha.mealplanner.gui.frame;
 
-import fr.oiha.mealplanner.gui.component.DarkButton;
+import fr.oiha.mealplanner.gui.component.CustomButton;
 import fr.oiha.mealplanner.gui.panel.MealPanel;
 import fr.oiha.mealplanner.model.Ingredient;
 import fr.oiha.mealplanner.model.Product;
@@ -26,10 +26,10 @@ public class AddMealFrame extends JFrame {
     private JTextArea recipeArea;
     private JTable ingredientsTable;
     private DefaultTableModel tableModel;
-    private DarkButton addIngredientButton;
-    private DarkButton removeIngredientButton;
-    private DarkButton saveButton;
-    private DarkButton cancelButton;
+    private CustomButton addIngredientButton;
+    private CustomButton removeIngredientButton;
+    private CustomButton saveButton;
+    private CustomButton cancelButton;
     private MealPanel parentFrame;
 
     public AddMealFrame(MealPanel parent) {
@@ -47,14 +47,10 @@ public class AddMealFrame extends JFrame {
 
     private void initComponents() {
         nameField = new JTextField(20);
-        nameField.setBackground(Color.DARK_GRAY);
-        nameField.setForeground(Color.WHITE);
 
         recipeArea = new JTextArea(5, 20);
         recipeArea.setLineWrap(true);
         recipeArea.setWrapStyleWord(true);
-        recipeArea.setBackground(Color.DARK_GRAY);
-        recipeArea.setForeground(Color.WHITE);
 
         // Table for ingredients
         String[] columnNames = {"Product", "Quantity", "Unit"};
@@ -68,27 +64,17 @@ public class AddMealFrame extends JFrame {
         ingredientsTable.getColumnModel().getColumn(0).setPreferredWidth(200);
         ingredientsTable.getColumnModel().getColumn(1).setPreferredWidth(80);
         ingredientsTable.getColumnModel().getColumn(2).setPreferredWidth(80);
-        ingredientsTable.setBackground(Color.DARK_GRAY);
-        ingredientsTable.setForeground(Color.WHITE);
-        ingredientsTable.setGridColor(Color.GRAY);
-        ingredientsTable.setSelectionBackground(Color.GRAY);
-        ingredientsTable.setSelectionForeground(Color.WHITE);
 
         JTableHeader tableHeader = ingredientsTable.getTableHeader();
-        tableHeader.setBackground(Color.DARK_GRAY);
-        tableHeader.setForeground(Color.WHITE);
-        tableHeader.setReorderingAllowed(false);
 
         JScrollPane tableScrollPane = new JScrollPane(ingredientsTable);
-        tableScrollPane.getViewport().setBackground(Color.DARK_GRAY);
-        tableScrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-        addIngredientButton = new DarkButton("Add Ingredient");
+        addIngredientButton = new CustomButton("Add Ingredient");
         addIngredientButton.setPreferredSize(new Dimension(140, 40));
-        removeIngredientButton = new DarkButton("Remove Ingredient");
+        removeIngredientButton = new CustomButton("Remove Ingredient");
         removeIngredientButton.setPreferredSize(new Dimension(170, 40));
-        saveButton = new DarkButton("Save");
-        cancelButton = new DarkButton("Cancel");
+        saveButton = new CustomButton("Save");
+        cancelButton = new CustomButton("Cancel");
 
         addIngredientButton.setHoverBackgroundColor(Color.LIGHT_GRAY);
         removeIngredientButton.setHoverBackgroundColor(Color.LIGHT_GRAY);
@@ -99,10 +85,8 @@ public class AddMealFrame extends JFrame {
     private void setupLayout() {
         JPanel contentPanel = new JPanel(new BorderLayout(10, 10));
         contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        contentPanel.setBackground(Color.DARK_GRAY);
 
         JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBackground(Color.DARK_GRAY);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.anchor = GridBagConstraints.WEST;
@@ -110,7 +94,6 @@ public class AddMealFrame extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 0;
         JLabel nameLabel = new JLabel("Meal Name:");
-        nameLabel.setForeground(Color.WHITE);
         formPanel.add(nameLabel, gbc);
 
         gbc.gridx = 1;
@@ -123,7 +106,6 @@ public class AddMealFrame extends JFrame {
         gbc.fill = GridBagConstraints.NONE;
         gbc.weightx = 0.0;
         JLabel recipeLabel = new JLabel("Recipe:");
-        recipeLabel.setForeground(Color.WHITE);
         formPanel.add(recipeLabel, gbc);
 
         gbc.gridx = 1;
@@ -137,15 +119,11 @@ public class AddMealFrame extends JFrame {
 
         JPanel ingredientsPanel = new JPanel(new BorderLayout(5, 5));
         ingredientsPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Ingredients", 0, 0, null, Color.WHITE));
-        ingredientsPanel.setBackground(Color.DARK_GRAY);
 
         JScrollPane tableScrollPane = new JScrollPane(ingredientsTable);
-        tableScrollPane.getViewport().setBackground(Color.DARK_GRAY);
-        tableScrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         ingredientsPanel.add(tableScrollPane, BorderLayout.CENTER);
 
         JPanel ingredientButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        ingredientButtonPanel.setBackground(Color.DARK_GRAY);
         ingredientButtonPanel.add(addIngredientButton);
         ingredientButtonPanel.add(removeIngredientButton);
         ingredientsPanel.add(ingredientButtonPanel, BorderLayout.SOUTH);
@@ -153,7 +131,6 @@ public class AddMealFrame extends JFrame {
         contentPanel.add(ingredientsPanel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.setBackground(Color.DARK_GRAY);
         buttonPanel.add(saveButton);
         buttonPanel.add(cancelButton);
         contentPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -222,10 +199,8 @@ public class AddMealFrame extends JFrame {
         dialog.setSize(350, 200);
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout(10, 10));
-        dialog.getContentPane().setBackground(Color.DARK_GRAY);
 
         JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBackground(Color.DARK_GRAY);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.anchor = GridBagConstraints.WEST;
@@ -244,13 +219,10 @@ public class AddMealFrame extends JFrame {
         for (Product product : products) {
             productComboBox.addItem(product);
         }
-        productComboBox.setBackground(Color.DARK_GRAY);
-        productComboBox.setForeground(Color.WHITE);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
         JLabel productLabel = new JLabel("Product:");
-        productLabel.setForeground(Color.WHITE);
         panel.add(productLabel, gbc);
 
         gbc.gridx = 1;
@@ -260,14 +232,11 @@ public class AddMealFrame extends JFrame {
         JFormattedTextField quantityField = new JFormattedTextField(NumberFormat.getNumberInstance());
         quantityField.setValue(1.0);
         quantityField.setColumns(10);
-        quantityField.setBackground(Color.DARK_GRAY);
-        quantityField.setForeground(Color.WHITE);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.NONE;
         JLabel quantityLabel = new JLabel("Quantity:");
-        quantityLabel.setForeground(Color.WHITE);
         panel.add(quantityLabel, gbc);
 
         gbc.gridx = 1;
@@ -277,13 +246,11 @@ public class AddMealFrame extends JFrame {
         dialog.add(panel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.setBackground(Color.DARK_GRAY);
-        DarkButton addButton = new DarkButton("Add");
-        DarkButton cancelButton = new DarkButton("Cancel");
+        CustomButton addButton = new CustomButton("Add");
+        CustomButton cancelButton = new CustomButton("Cancel");
 
         addButton.setHoverBackgroundColor(Color.LIGHT_GRAY);
         cancelButton.setHoverBackgroundColor(Color.LIGHT_GRAY);
-
 
         // Add the selected product and quantity to the table
         // Validate the quantity and show an error message if invalid

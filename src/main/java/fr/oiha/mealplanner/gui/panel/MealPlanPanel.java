@@ -3,14 +3,12 @@ package fr.oiha.mealplanner.gui.panel;
 import fr.oiha.mealplanner.model.Meal;
 import fr.oiha.mealplanner.model.MealPlan;
 import fr.oiha.mealplanner.service.MealPlannerService;
-import fr.oiha.mealplanner.gui.component.DarkButton;
+import fr.oiha.mealplanner.gui.component.CustomButton;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.text.DecimalFormat;
 
@@ -50,30 +48,22 @@ public class MealPlanPanel extends JPanel {
     private void initComponents() {
         
         setLayout(new BorderLayout(0, 10));
-        setBackground(Color.DARK_GRAY);
 
         
         optionsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
-        optionsPanel.setBackground(Color.DARK_GRAY);
 
         mealCountLabel = new JLabel("Number of meals:");
-        mealCountLabel.setForeground(Color.WHITE);
         mealCountSpinner = new JSpinner(new SpinnerNumberModel(7, 1, 30, 1));
         JComponent editor = mealCountSpinner.getEditor();
         JFormattedTextField ftf = ((JSpinner.DefaultEditor) editor).getTextField();
         ftf.setColumns(2);
-        ftf.setBackground(Color.DARK_GRAY);
-        ftf.setForeground(Color.WHITE);
 
         budgetLabel = new JLabel("Maximum budget (€):");
-        budgetLabel.setForeground(Color.WHITE);
         budgetField = new JTextField("100", 8);
-        budgetField.setBackground(Color.DARK_GRAY);
-        budgetField.setForeground(Color.WHITE);
 
-        generatePlanButton = new DarkButton("Generate Meal Plan");
+        generatePlanButton = new CustomButton("Generate Meal Plan");
         generatePlanButton.setPreferredSize(new Dimension(180, 40));
-        exportButton = new DarkButton("Export List and Recipes");
+        exportButton = new CustomButton("Export List and Recipes");
         exportButton.setPreferredSize(new Dimension(200, 40));
 
         optionsPanel.add(mealCountLabel);
@@ -87,41 +77,19 @@ public class MealPlanPanel extends JPanel {
 
         
         planPanel = new JPanel(new BorderLayout());
-        planPanel.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(Color.GRAY),
-                "Generated Meal Plan",
-                TitledBorder.LEADING,
-                TitledBorder.TOP, null, Color.WHITE));
-        planPanel.setBackground(Color.DARK_GRAY);
 
         mealPlanTable = new JTable();
-        mealPlanTable.setShowHorizontalLines(true);
-        mealPlanTable.setShowVerticalLines(true);
-        mealPlanTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        mealPlanTable.setRowSelectionAllowed(true);
-        mealPlanTable.setBackground(Color.DARK_GRAY);
-        mealPlanTable.setForeground(Color.WHITE);
-        mealPlanTable.setGridColor(Color.GRAY);
-        mealPlanTable.setSelectionBackground(Color.GRAY);
-        mealPlanTable.setSelectionForeground(Color.WHITE);
         mealPlanTable.setModel(new DefaultTableModel(
                 new Object[][] {},
                 new String[] { "Meal", "Price" }
         ));
 
         JTableHeader tableHeader = mealPlanTable.getTableHeader();
-        tableHeader.setBackground(Color.DARK_GRAY);
-        tableHeader.setForeground(Color.WHITE);
-        tableHeader.setReorderingAllowed(false);
 
         scrollPane = new JScrollPane(mealPlanTable);
-        scrollPane.getViewport().setBackground(Color.DARK_GRAY);
-        scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         planPanel.add(scrollPane, BorderLayout.CENTER);
 
         totalCostLabel = new JLabel("Total cost: 0.00 €", JLabel.RIGHT);
-        totalCostLabel.setForeground(Color.WHITE);
-        totalCostLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         planPanel.add(totalCostLabel, BorderLayout.SOUTH);
 
         add(planPanel, BorderLayout.CENTER);

@@ -1,6 +1,6 @@
 package fr.oiha.mealplanner.gui.panel;
 
-import fr.oiha.mealplanner.gui.component.DarkButton;
+import fr.oiha.mealplanner.gui.component.CustomButton;
 import fr.oiha.mealplanner.gui.frame.AddMealFrame;
 import fr.oiha.mealplanner.gui.frame.ModifyMealFrame;
 import fr.oiha.mealplanner.service.MealPlannerService;
@@ -40,11 +40,10 @@ public class MealPanel extends JPanel {
 
     private void initComponents() {
         toolBar = new JToolBar();
-        addMealButton = new DarkButton("Add a meal");
-        modifyButton = new DarkButton("Modify a meal");
-        deleteButton = new DarkButton("Delete a meal");
+        addMealButton = new CustomButton("Add a meal");
+        modifyButton = new CustomButton("Modify a meal");
+        deleteButton = new CustomButton("Delete a meal");
         scrollPane = new JScrollPane();
-        scrollPane.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
         mealTable = new JTable() {
             @Override
             public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
@@ -56,35 +55,18 @@ public class MealPanel extends JPanel {
             }
         };
 
-
         setLayout(new BorderLayout());
-        setBackground(Color.DARK_GRAY);
-
 
         toolBar.setFloatable(false);
-        toolBar.setBackground(Color.DARK_GRAY);
-        toolBar.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-        addMealButton.setBackground(Color.DARK_GRAY);
-        addMealButton.setForeground(Color.WHITE);
-        modifyButton.setBackground(Color.DARK_GRAY);
-        modifyButton.setForeground(Color.WHITE);
-        deleteButton.setBackground(Color.DARK_GRAY);
-        deleteButton.setForeground(Color.WHITE);
         toolBar.add(addMealButton);
         toolBar.add(modifyButton);
         toolBar.add(deleteButton);
         add(toolBar, BorderLayout.NORTH);
 
-
         mealTable.setShowHorizontalLines(true);
         mealTable.setShowVerticalLines(true);
         mealTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         mealTable.setRowSelectionAllowed(true);
-        mealTable.setBackground(Color.DARK_GRAY);
-        mealTable.setForeground(Color.WHITE);
-        mealTable.setGridColor(Color.GRAY);
-        mealTable.setSelectionBackground(Color.GRAY);
-        mealTable.setSelectionForeground(Color.WHITE);
         mealTable.setModel(new DefaultTableModel(
                 new Object[][] {
                 },
@@ -94,13 +76,9 @@ public class MealPanel extends JPanel {
         ));
 
         JTableHeader tableHeader = mealTable.getTableHeader();
-        tableHeader.setBackground(Color.DARK_GRAY);
-        tableHeader.setForeground(Color.WHITE);
         tableHeader.setReorderingAllowed(false);
 
         scrollPane.setViewportView(mealTable);
-        scrollPane.getViewport().setBackground(Color.DARK_GRAY);
-        scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         add(scrollPane, BorderLayout.CENTER);
     }
 

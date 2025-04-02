@@ -2,7 +2,7 @@ package fr.oiha.mealplanner.gui.dialog;
 
 import fr.oiha.mealplanner.model.Product;
 import fr.oiha.mealplanner.service.MealPlannerService;
-import fr.oiha.mealplanner.gui.component.DarkButton;
+import fr.oiha.mealplanner.gui.component.CustomButton;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -12,6 +12,13 @@ import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 import java.util.Set;
 
+/**
+ * AddIngredientDialog is a JDialog that allows the user to add an ingredient to a meal.
+ * It contains a JComboBox for selecting a product,
+ * a JFormattedTextField for entering the quantity,
+ * and buttons to add or cancel the action.
+ * It validates the input and updates the table model with the new ingredient.
+ */
 public class AddIngredientDialog extends JDialog {
 
     public AddIngredientDialog(JFrame parent, DefaultTableModel tableModel) {
@@ -22,7 +29,6 @@ public class AddIngredientDialog extends JDialog {
         getContentPane().setBackground(Color.DARK_GRAY);
 
         JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBackground(Color.DARK_GRAY);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.anchor = GridBagConstraints.WEST;
@@ -41,13 +47,10 @@ public class AddIngredientDialog extends JDialog {
         for (Product product : products) {
             productComboBox.addItem(product);
         }
-        productComboBox.setBackground(Color.DARK_GRAY);
-        productComboBox.setForeground(Color.WHITE);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
         JLabel productLabel = new JLabel("Product:");
-        productLabel.setForeground(Color.WHITE);
         panel.add(productLabel, gbc);
 
         gbc.gridx = 1;
@@ -57,14 +60,11 @@ public class AddIngredientDialog extends JDialog {
         JFormattedTextField quantityField = new JFormattedTextField(NumberFormat.getNumberInstance());
         quantityField.setValue(1.0);
         quantityField.setColumns(10);
-        quantityField.setBackground(Color.DARK_GRAY);
-        quantityField.setForeground(Color.WHITE);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.NONE;
         JLabel quantityLabel = new JLabel("Quantity:");
-        quantityLabel.setForeground(Color.WHITE);
         panel.add(quantityLabel, gbc);
 
         gbc.gridx = 1;
@@ -74,9 +74,8 @@ public class AddIngredientDialog extends JDialog {
         add(panel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.setBackground(Color.DARK_GRAY);
-        DarkButton addButton = new DarkButton("Add");
-        DarkButton cancelButton = new DarkButton("Cancel");
+        CustomButton addButton = new CustomButton("Add");
+        CustomButton cancelButton = new CustomButton("Cancel");
 
         addButton.setHoverBackgroundColor(Color.LIGHT_GRAY);
         cancelButton.setHoverBackgroundColor(Color.LIGHT_GRAY);

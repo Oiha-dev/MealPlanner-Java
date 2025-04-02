@@ -1,7 +1,7 @@
 package fr.oiha.mealplanner.gui.frame;
 
 import fr.oiha.mealplanner.exception.MealNotFoundException;
-import fr.oiha.mealplanner.gui.component.DarkButton;
+import fr.oiha.mealplanner.gui.component.CustomButton;
 import fr.oiha.mealplanner.gui.dialog.AddIngredientDialog;
 import fr.oiha.mealplanner.gui.panel.MealPanel;
 import fr.oiha.mealplanner.model.Ingredient;
@@ -16,10 +16,8 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Frame for modifying a meal
@@ -32,10 +30,10 @@ public class ModifyMealFrame extends JFrame {
     private JTextArea recipeArea;
     private JTable ingredientsTable;
     private DefaultTableModel tableModel;
-    private DarkButton addIngredientButton;
-    private DarkButton removeIngredientButton;
-    private DarkButton saveButton;
-    private DarkButton cancelButton;
+    private CustomButton addIngredientButton;
+    private CustomButton removeIngredientButton;
+    private CustomButton saveButton;
+    private CustomButton cancelButton;
     private MealPanel parentFrame;
     private int id;
 
@@ -56,16 +54,11 @@ public class ModifyMealFrame extends JFrame {
 
     private void initComponents() {
         nameField = new JTextField(20);
-        nameField.setBackground(Color.DARK_GRAY);
-        nameField.setForeground(Color.WHITE);
 
         recipeArea = new JTextArea(5, 20);
         recipeArea.setLineWrap(true);
         recipeArea.setWrapStyleWord(true);
-        recipeArea.setBackground(Color.DARK_GRAY);
-        recipeArea.setForeground(Color.WHITE);
 
-        
         String[] columnNames = {"Product", "Quantity", "Unit"};
         tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
@@ -77,33 +70,18 @@ public class ModifyMealFrame extends JFrame {
         ingredientsTable.getColumnModel().getColumn(0).setPreferredWidth(200);
         ingredientsTable.getColumnModel().getColumn(1).setPreferredWidth(80);
         ingredientsTable.getColumnModel().getColumn(2).setPreferredWidth(80);
-        ingredientsTable.setBackground(Color.DARK_GRAY);
-        ingredientsTable.setForeground(Color.WHITE);
-        ingredientsTable.setGridColor(Color.GRAY);
-        ingredientsTable.setSelectionBackground(Color.GRAY);
-        ingredientsTable.setSelectionForeground(Color.WHITE);
 
         JTableHeader tableHeader = ingredientsTable.getTableHeader();
-        tableHeader.setBackground(Color.DARK_GRAY);
-        tableHeader.setForeground(Color.WHITE);
         tableHeader.setReorderingAllowed(false);
 
         JScrollPane tableScrollPane = new JScrollPane(ingredientsTable);
-        tableScrollPane.getViewport().setBackground(Color.DARK_GRAY);
-        tableScrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-        addIngredientButton = new DarkButton("Add Ingredient");
+        addIngredientButton = new CustomButton("Add Ingredient");
         addIngredientButton.setPreferredSize(new Dimension(140, 40));
-        removeIngredientButton = new DarkButton("Remove Ingredient");
+        removeIngredientButton = new CustomButton("Remove Ingredient");
         removeIngredientButton.setPreferredSize(new Dimension(170, 40));
-        saveButton = new DarkButton("Save");
-        cancelButton = new DarkButton("Cancel");
-
-        
-        addIngredientButton.setHoverBackgroundColor(Color.LIGHT_GRAY);
-        removeIngredientButton.setHoverBackgroundColor(Color.LIGHT_GRAY);
-        saveButton.setHoverBackgroundColor(new Color(82, 113, 82)); 
-        cancelButton.setHoverBackgroundColor(new Color(128, 52, 52)); 
+        saveButton = new CustomButton("Save");
+        cancelButton = new CustomButton("Cancel");
     }
 
     /**
@@ -135,20 +113,15 @@ public class ModifyMealFrame extends JFrame {
     private void setupLayout() {
         JPanel contentPanel = new JPanel(new BorderLayout(10, 10));
         contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        contentPanel.setBackground(Color.DARK_GRAY);
 
-        
         JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBackground(Color.DARK_GRAY);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.anchor = GridBagConstraints.WEST;
 
-        
         gbc.gridx = 0;
         gbc.gridy = 0;
         JLabel nameLabel = new JLabel("Meal Name:");
-        nameLabel.setForeground(Color.WHITE);
         formPanel.add(nameLabel, gbc);
 
         gbc.gridx = 1;
@@ -156,13 +129,11 @@ public class ModifyMealFrame extends JFrame {
         gbc.weightx = 1.0;
         formPanel.add(nameField, gbc);
 
-        
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.NONE;
         gbc.weightx = 0.0;
         JLabel recipeLabel = new JLabel("Recipe:");
-        recipeLabel.setForeground(Color.WHITE);
         formPanel.add(recipeLabel, gbc);
 
         gbc.gridx = 1;
@@ -174,27 +145,20 @@ public class ModifyMealFrame extends JFrame {
 
         contentPanel.add(formPanel, BorderLayout.NORTH);
 
-        
         JPanel ingredientsPanel = new JPanel(new BorderLayout(5, 5));
-        ingredientsPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Ingredients", 0, 0, null, Color.WHITE));
-        ingredientsPanel.setBackground(Color.DARK_GRAY);
+        ingredientsPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Ingredients"));
 
         JScrollPane tableScrollPane = new JScrollPane(ingredientsTable);
-        tableScrollPane.getViewport().setBackground(Color.DARK_GRAY);
-        tableScrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         ingredientsPanel.add(tableScrollPane, BorderLayout.CENTER);
 
         JPanel ingredientButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        ingredientButtonPanel.setBackground(Color.DARK_GRAY);
         ingredientButtonPanel.add(addIngredientButton);
         ingredientButtonPanel.add(removeIngredientButton);
         ingredientsPanel.add(ingredientButtonPanel, BorderLayout.SOUTH);
 
         contentPanel.add(ingredientsPanel, BorderLayout.CENTER);
 
-        
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.setBackground(Color.DARK_GRAY);
         buttonPanel.add(saveButton);
         buttonPanel.add(cancelButton);
         contentPanel.add(buttonPanel, BorderLayout.SOUTH);

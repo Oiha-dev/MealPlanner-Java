@@ -1,6 +1,6 @@
 package fr.oiha.mealplanner.gui.panel;
 
-import fr.oiha.mealplanner.gui.component.DarkButton;
+import fr.oiha.mealplanner.gui.component.CustomButton;
 import fr.oiha.mealplanner.gui.frame.AddProductFrame;
 import fr.oiha.mealplanner.gui.frame.ModifyProductFrame;
 import fr.oiha.mealplanner.service.MealPlannerService;
@@ -33,22 +33,16 @@ public class ProductPanel extends JPanel {
     }
 
     private void initComponents() {
-        
         toolBar = new JToolBar();
-        addProductButton = new DarkButton("Add a product");
-        modifyButton = new DarkButton("Modify a product");
-        deleteButton = new DarkButton("Delete a product");
+        addProductButton = new CustomButton("Add a product");
+        modifyButton = new CustomButton("Modify a product");
+        deleteButton = new CustomButton("Delete a product");
         scrollPane = new JScrollPane();
         productTable = new JTable();
 
-        
         setLayout(new BorderLayout());
-        setBackground(Color.DARK_GRAY);
 
-        
         toolBar.setFloatable(false);
-        toolBar.setBackground(Color.DARK_GRAY);
-        toolBar.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
         addProductButton.setBackground(Color.DARK_GRAY);
         addProductButton.setForeground(Color.WHITE);
         modifyButton.setBackground(Color.DARK_GRAY);
@@ -60,16 +54,10 @@ public class ProductPanel extends JPanel {
         toolBar.add(deleteButton);
         add(toolBar, BorderLayout.NORTH);
 
-        
         productTable.setShowHorizontalLines(true);
         productTable.setShowVerticalLines(true);
         productTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         productTable.setRowSelectionAllowed(true);
-        productTable.setBackground(Color.DARK_GRAY);
-        productTable.setForeground(Color.WHITE);
-        productTable.setGridColor(Color.GRAY);
-        productTable.setSelectionBackground(Color.GRAY);
-        productTable.setSelectionForeground(Color.WHITE);
         productTable.setModel(new DefaultTableModel(
                 new Object[][] {
                 },
@@ -78,12 +66,6 @@ public class ProductPanel extends JPanel {
                 }
         ));
 
-        JTableHeader tableHeader = productTable.getTableHeader();
-        tableHeader.setBackground(Color.DARK_GRAY);
-        tableHeader.setForeground(Color.WHITE);
-        tableHeader.setReorderingAllowed(false);
-
-        
         TableColumnModel columnModel = productTable.getColumnModel();
         columnModel.getColumn(0).setMinWidth(0);
         columnModel.getColumn(0).setMaxWidth(0);
@@ -91,8 +73,6 @@ public class ProductPanel extends JPanel {
         columnModel.getColumn(0).setResizable(false);
 
         scrollPane.setViewportView(productTable);
-        scrollPane.getViewport().setBackground(Color.DARK_GRAY);
-        scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         add(scrollPane, BorderLayout.CENTER);
     }
 
@@ -112,8 +92,7 @@ public class ProductPanel extends JPanel {
                     JOptionPane.showMessageDialog(ProductPanel.this, "Please select a product to modify");
                     return;
                 }
-                
-                
+
                 int productId = (Integer) productTable.getValueAt(productTable.getSelectedRow(), 0);
                 ModifyProductFrame dialog = new ModifyProductFrame(ProductPanel.this, productId);
                 dialog.setVisible(true);
@@ -127,8 +106,7 @@ public class ProductPanel extends JPanel {
                     JOptionPane.showMessageDialog(ProductPanel.this, "Please select a product to delete");
                     return;
                 }
-                
-                
+
                 int productId = (Integer) productTable.getValueAt(productTable.getSelectedRow(), 0);
                 MealPlannerService.getInstance().removeProduct(productId);
                 loadProducts();
